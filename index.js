@@ -24,6 +24,9 @@ module.exports = {
     algodGetStatus: require('./triggers/algod-get-status'),
     algodGetStatusAfterBlock: require('./triggers/algod-get-status-after-block'),
     algodGetTransactionParams: require('./triggers/algod-get-transaction-params'),
+    algodGetPendingTransactions: require('./triggers/algod-get-pending-transactions'),
+    algodGetPendingTransactionInformation: require('./triggers/algod-get-pending-transaction-information'),
+    algodGetVersion: require('./triggers/algod-get-version'),
     //Algorand Element triggers
     algodGetAccountInformation: require('./triggers/algod-get-account-information'),
     algodGetAccountApplicationInformation: require('./triggers/algod-get-account-application-information'),
