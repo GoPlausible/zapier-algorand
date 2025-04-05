@@ -25,6 +25,7 @@ module.exports = {
     algodGetAccountAssetInformation: require('./triggers/algod-get-account-asset-information'),
     algodGetAccountPendingTransactions: require('./triggers/algod-get-account-pending-transactions'),
     algodGetApplication: require('./triggers/algod-get-application'),
+    algodGetApplicationBox: require('./triggers/algod-get-application-box'),
     algodGetApplicationBoxes: require('./triggers/algod-get-application-boxes'),
     algodGetMetrics: require('./triggers/algod-get-metrics'),
     algodGetReady: require('./triggers/algod-get-ready'),
