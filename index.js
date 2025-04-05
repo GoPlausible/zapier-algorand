@@ -11,7 +11,7 @@ module.exports = {
         'X-Algo-API-Token': '{{bundle.authData.token}}',
       },
     },
-    connectionLabel: '{{process.env.network}}-test',
+    connectionLabel: '{{process.env.network}}-connection-test',
   },
 
 
