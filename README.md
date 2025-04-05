@@ -12,7 +12,7 @@ npm install  # or you can use yarn
 zapier test
 
 # Register the integration on Zapier if you haven't
-zapier register "App Title"
+zapier register "zapier-algorand"
 
 # Or you can link to an existing integration on Zapier
 zapier link
