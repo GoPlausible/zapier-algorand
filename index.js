@@ -38,7 +38,13 @@ module.exports = {
     algodGetLedgerStateDelta: require('./triggers/algod-get-ledger-state-delta'),
     algodGetLedgerStateDeltaForTransactionGroup: require('./triggers/algod-get-ledger-state-delta-for-transaction-group'),
     algodGetTransactionGroupLedgerStateDeltasForRound: require('./triggers/algod-get-transaction-group-ledger-state-deltas-for-round'),
+    //Dev Mode triggers
+    algodGetBlockTimeStampOffset: require('./triggers/algod-get-block-timestamp-offset'),
 
+    //Participation triggers
+    algodGetParticipationKeys: require('./triggers/algod-get-participation-keys'),
+    algodGetParticipationKeyById: require('./triggers/algod-get-participation-key-by-id'),
+    algodGetStateProof: require('./triggers/algod-get-state-proof'),
   },
 
 

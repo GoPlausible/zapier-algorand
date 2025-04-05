@@ -4826,75 +4826,6 @@
       }
     },
     "/v2/participation/{participation-id}": {
-      "delete": {
-        "description": "Delete a given participation key by ID",
-        "operationId": "DeleteParticipationKeyByID",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "participation-id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {},
-            "description": "Participation key got deleted by ID"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Participation Key Not Found"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Delete a given participation key by ID",
-        "tags": [
-          "private",
-          "participating"
-        ]
-      },
       "get": {
         "description": "Given a participation ID, return information about that participation key",
         "operationId": "GetParticipationKeyByID",
@@ -4970,6 +4901,76 @@
           "participating"
         ]
       },
+      "delete": {
+        "description": "Delete a given participation key by ID",
+        "operationId": "DeleteParticipationKeyByID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "participation-id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {},
+            "description": "Participation key got deleted by ID"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid API Token"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Participation Key Not Found"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Error"
+          },
+          "default": {
+            "content": {},
+            "description": "Unknown Error"
+          }
+        },
+        "summary": "Delete a given participation key by ID",
+        "tags": [
+          "private",
+          "participating"
+        ]
+      },
+     
       "post": {
         "description": "Given a participation ID, append state proof keys to a particular set of participation keys",
         "operationId": "AppendKeys",
