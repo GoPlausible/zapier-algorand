@@ -151,7 +151,7 @@ const ItemResource = {
 ### Triggers
 ### Resources
 ### Searches
-Our integration provides numerous search operations to look up data on the Algorand blockchain:
+Algorand Zapier integration provides numerous search operations to look up data on the Algorand blockchain:
 
 #### Account Related
 - `algodGetAccountInformation`: Get account information

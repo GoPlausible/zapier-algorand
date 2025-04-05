@@ -23,6 +23,15 @@ const algodGetMetrics = async (z, bundle) => {
     },
     operation: {
       perform: algodGetMetrics,
+      inputFields: [
+      {
+        key: 'customToken',
+        label: 'Custom Token',
+        type: 'string',
+        required: false,
+        helpText: 'The custom token to use for the request',
+      }
+    ],
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",
         "key": "algod_network_peer_count",

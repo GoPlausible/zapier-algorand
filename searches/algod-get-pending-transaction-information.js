@@ -20,7 +20,7 @@ const algodGetPendingTransactionInformation = async (z, bundle) => {
     key: "algodGetPendingTransactionInformation",
     noun: "Get Pending Transaction Information",
     display: {
-      label: "Get pending transaction information",
+      label: "Get Pending Transaction Information",
       description: "Given a transaction ID of a recently submitted transaction, it returns information about it. Shows if transaction is committed, still in pool, or removed from pool due to error.",
     },
     operation: {

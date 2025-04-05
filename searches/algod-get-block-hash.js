@@ -17,7 +17,7 @@ const algodGetBlockHash = async (z, bundle) => {
     key: "algodGetBlockHash",
     noun: "Get Block Hash",
     display: {
-      label: "Get block hash",
+      label: "Get Block Hash",
       description: "Get the block hash for the block on the given round.",
     },
     operation: {

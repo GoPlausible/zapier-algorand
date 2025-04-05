@@ -20,7 +20,7 @@ const algodGetApplicationBoxes = async (z, bundle) => {
     key: "algodGetApplicationBoxes",
     noun: "Get Application Boxes",
     display: {
-      label: "Get application boxes",
+      label: "Get Application Boxes",
       description: "Given an application ID, return all Box names. No particular ordering is guaranteed. Request fails when client or server-side configured limits prevent returning all Box names.",
     },
     operation: {

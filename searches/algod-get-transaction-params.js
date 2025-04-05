@@ -17,12 +17,21 @@ const algodGetTransactionParams = async (z, bundle) => {
     key: "algodGetTransactionParams",
     noun: "Get Transaction Parameters",
     display: {
-      label: "Get transaction parameters",
+      label: "Get Transaction Parameters",
       description: "Get parameters for constructing a new transaction.",
     },
     operation: {
       inputFields: [],
       perform: algodGetTransactionParams,
+      inputFields: [
+      {
+        key: 'customToken',
+        label: 'Custom Token',
+        type: 'string',
+        required: false,
+        helpText: 'The custom token to use for the request',
+      }
+    ],
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",
         "consensus-version": "https://github.com/algorandfoundation/specs/tree/d5ac876d7ede07367dbaa26e149aa42589aac1f7",

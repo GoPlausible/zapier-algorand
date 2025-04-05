@@ -15,11 +15,20 @@ const algodGetGenesis = async (z, bundle) => {
     key: "algodGetGenesis",
     noun: "Get Algod Genesis",
     display: {
-      label: "Get Algod network genesis",
+      label: "Get Algod Network Genesis",
       description: "Returns the entire genesis file in json.",
     },
     operation: {
       perform: algodGetGenesis,
+      inputFields: [
+      {
+        key: 'customToken',
+        label: 'Custom Token',
+        type: 'string',
+        required: false,
+        helpText: 'The custom token to use for the request',
+      }
+    ],
       sample: {
         "status": "OK",
       },

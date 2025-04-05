@@ -20,7 +20,7 @@ const algodGetApplication = async (z, bundle) => {
     key: "algodGetApplication",
     noun: "Get Application Information",
     display: {
-      label: "Get application information",
+      label: "Get Application Information",
       description: "Given an application ID, it returns application information including creator, approval and clear programs, global and local schemas, and global state.",
     },
     operation: {

@@ -17,12 +17,20 @@ const algodGetParticipationKeys = async (z, bundle) => {
     key: "algodGetParticipationKeys",
     noun: "Get Participation Keys",
     display: {
-      label: "Get participation keys",
+      label: "Get Participation Keys",
       description: "Return a list of participation keys.",
     },
     operation: {
-      inputFields: [],
       perform: algodGetParticipationKeys,
+      inputFields: [
+        {
+          key: 'customToken',
+          label: 'Custom Token',
+          type: 'string',
+          required: false,
+          helpText: 'The custom token to use for the request',
+        }
+      ],
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",
         "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",

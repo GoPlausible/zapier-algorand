@@ -20,7 +20,7 @@ const algodGetLedgerStateDeltaForTransactionGroup = async (z, bundle) => {
     key: "algodGetLedgerStateDeltaForTransactionGroup",
     noun: "Get Ledger State Delta",
     display: {
-      label: "Get ledger state delta for transaction group",
+      label: "Get Ledger State Delta for Transaction Group",
       description: "Get a ledger delta for a given transaction group.",
     },
     operation: {

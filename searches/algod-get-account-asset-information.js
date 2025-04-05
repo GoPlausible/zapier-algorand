@@ -20,7 +20,7 @@ const algodGetAccountAssetInformation = async (z, bundle) => {
     key: "algodGetAccountAssetInformation",
     noun: "Get Account Asset Information",
     display: {
-      label: "Get account information about a given asset",
+      label: "Get Account Asset Information",
       description: "Given a specific account public key and asset ID, this call returns the account's asset holding and asset parameters (if either exist). Asset parameters will only be returned if the provided address is the asset's creator.",
     },
     operation: {

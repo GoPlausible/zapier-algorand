@@ -20,7 +20,7 @@ const algodGetAccountInformation = async (z, bundle) => {
     key: "algodGetAccountInformation",
     noun: "Get Account Information",
     display: {
-      label: "Get account information",
+      label: "Get Account Information",
       description: "Given a specific account public key, this call returns the accounts status, balance and spendable amounts",
     },
     operation: {

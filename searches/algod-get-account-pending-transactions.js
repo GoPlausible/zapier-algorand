@@ -21,7 +21,7 @@ const algodGetAccountPendingTransactions = async (z, bundle) => {
     key: "algodGetAccountPendingTransactions",
     noun: "Get Account Pending Transactions",
     display: {
-      label: "Get account pending transactions",
+      label: "Get Account Pending Transactions",
       description: "Get the list of pending transactions by address, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.",
     },
     operation: {

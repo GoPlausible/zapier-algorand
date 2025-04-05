@@ -17,12 +17,20 @@ const algodGetVersion = async (z, bundle) => {
     key: "algodGetVersion",
     noun: "Get Version Information",
     display: {
-      label: "Get version information",
+      label: "Get Version Information",
       description: "Retrieves the supported API versions, binary build versions, and genesis information.",
     },
     operation: {
-      inputFields: [],
       perform: algodGetVersion,
+      inputFields: [
+      {
+        key: 'customToken',
+        label: 'Custom Token',
+        type: 'string',
+        required: false,
+        helpText: 'The custom token to use for the request',
+      }
+    ],
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",
         "versions": [

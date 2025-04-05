@@ -17,7 +17,7 @@ const algodGetLightBlockHeaderProof = async (z, bundle) => {
     key: "algodGetLightBlockHeaderProof",
     noun: "Get Light Block Header Proof",
     display: {
-      label: "Get light block header proof",
+      label: "Get Light Block Header Proof",
       description: "Gets a proof for a given light block header inside a state proof commitment.",
     },
     operation: {

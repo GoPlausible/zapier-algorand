@@ -17,7 +17,7 @@ const algodGetAsset = async (z, bundle) => {
     key: "algodGetAsset",
     noun: "Get Asset Information",
     display: {
-      label: "Get asset information",
+      label: "Get Asset Information",
       description: "Given an asset ID, it returns asset information including creator, name, total supply and special addresses.",
     },
     operation: {

@@ -21,7 +21,7 @@ const algodGetTransactionProof = async (z, bundle) => {
     key: "algodGetTransactionProof",
     noun: "Get Transaction Proof",
     display: {
-      label: "Get transaction proof",
+      label: "Get Transaction Proof",
       description: "Get a proof for a transaction in a block.",
     },
     operation: {

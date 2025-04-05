@@ -20,7 +20,7 @@ const algodGetBlock = async (z, bundle) => {
     key: "algodGetBlock",
     noun: "Get Block Information",
     display: {
-      label: "Get block information",
+      label: "Get Block Information",
       description: "Get the block for the given round.",
     },
     operation: {

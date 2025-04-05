@@ -17,7 +17,7 @@ const algodGetStateProof = async (z, bundle) => {
     key: "algodGetStateProof",
     noun: "Get State Proof",
     display: {
-      label: "Get state proof",
+      label: "Get State Proof",
       description: "Get a state proof that covers a given round.",
     },
     operation: {

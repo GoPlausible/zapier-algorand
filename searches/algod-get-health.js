@@ -18,8 +18,18 @@ const algodGetHealth = async (z, bundle) => {
       label: "Get Algod Health Check",
       description: "Get Algod API and node health",
     },
+    
     operation: {
       perform: algodGetHealth,
+      inputFields: [
+      {
+        key: 'customToken',
+        label: 'Custom Token',
+        type: 'string',
+        required: false,
+        helpText: 'The custom token to use for the request',
+      }
+    ],
       sample: {
         "status": "OK",
       },
