@@ -16,10 +16,12 @@ module.exports = {
 
 
   triggers: {
+    //Algod triggers
     algodGetHealth: require('./triggers/algod-get-health-check'),
     algodGetMetrics: require('./triggers/algod-get-metrics'),
     algodGetReady: require('./triggers/algod-get-ready'),
     algodGetGenesis: require('./triggers/algod-get-genesis'),
+    //Algorand Element triggers
     algodGetAccountInformation: require('./triggers/algod-get-account-information'),
     algodGetAccountApplicationInformation: require('./triggers/algod-get-account-application-information'),
     algodGetAccountAssetInformation: require('./triggers/algod-get-account-asset-information'),
@@ -28,10 +30,14 @@ module.exports = {
     algodGetApplicationBox: require('./triggers/algod-get-application-box'),
     algodGetApplicationBoxes: require('./triggers/algod-get-application-boxes'),
     algodGetAsset: require('./triggers/algod-get-asset'),
+    //Block triggers
     algodGetBlock: require('./triggers/algod-get-block'),
     algodGetBlockHash: require('./triggers/algod-get-block-hash'),
-    algodGetBlockLightHeaderProof: require('./triggers/algod-get-light-block-header-proof'),
-    algodGetTransactionProof: require('./triggers/algod-get-transaction-proof'),
+    algodGetLightBlockHeaderProof: require('./triggers/algod-get-light-block-header-proof'),
+    //Deltas triggers
+    algodGetLedgerStateDelta: require('./triggers/algod-get-ledger-state-delta'),
+    algodGetLedgerStateDeltaForTransactionGroup: require('./triggers/algod-get-ledger-state-delta-for-transaction-group'),
+    algodGetTransactionGroupLedgerStateDeltasForRound: require('./triggers/algod-get-transaction-group-ledger-state-deltas-for-round'),
 
   },
 
