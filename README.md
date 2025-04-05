@@ -203,9 +203,15 @@ Each search operation accepts specific parameters as defined in the Algorand API
 
 ## Authentication
 
-The integration uses API token authentication. You'll need to provide:
-- Network selection (MainNet/TestNet)
-- API Token
+The integration uses API token authentication. You'll provide in ENV variables:
+- Network selection (mainnet/testnet)
+- API Token (Optional)
+
+Look at .env.example file and make a copy of it before start and make your changes there (network selection and token usage)
+
+```bash
+cp .env.example .env
+```
 
 ## Error Handling
 
