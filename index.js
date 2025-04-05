@@ -19,6 +19,8 @@ module.exports = {
   // If you want your trigger to show up, you better include it here!
   triggers: {
     algodGetHealth: require('./triggers/algod-get-health-check'),
+    algodGetMetrics: require('./triggers/algod-get-metrics'),
+    algodGetReady: require('./triggers/algod-get-ready'),
     algodGetGenesis: require('./triggers/algod-get-genesis'),
     algodGetAccountInformation: require('./triggers/algod-get-account-information'),
     algodGetAccountApplicationInformation: require('./triggers/algod-get-account-application-information'),
@@ -29,11 +31,10 @@ module.exports = {
     algodGetApplicationBoxes: require('./triggers/algod-get-application-boxes'),
     algodGetAsset: require('./triggers/algod-get-asset'),
     algodGetBlock: require('./triggers/algod-get-block'),
-    algodGetBlock: require('./triggers/algod-get-block-hash'),
-    algodGetBlock: require('./triggers/algod-get-light-block-header-proof'),
-    algodGetBlock: require('./triggers/algod-get-transaction-proof'),
-    algodGetMetrics: require('./triggers/algod-get-metrics'),
-    algodGetReady: require('./triggers/algod-get-ready'),
+    algodGetBlockHash: require('./triggers/algod-get-block-hash'),
+    algodGetBlockLightHeaderProof: require('./triggers/algod-get-light-block-header-proof'),
+    algodGetTransactionProof: require('./triggers/algod-get-transaction-proof'),
+
   },
 
   // If you want your searches to show up, you better include it here!
