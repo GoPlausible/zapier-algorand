@@ -5,7 +5,7 @@ const algodGetAccountAssetInformation = async (z, bundle) => {
       "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/accounts/{{bundle.inputData.address}}/assets/{{bundle.inputData.assetId}}", {
         method: "GET",
         params: {
-          format: bundle.inputData.format
+          format: "{{bundle.inputData.format}}"
         },
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',

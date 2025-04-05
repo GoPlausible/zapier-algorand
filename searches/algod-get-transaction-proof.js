@@ -5,8 +5,8 @@ const algodGetTransactionProof = async (z, bundle) => {
       "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/blocks/{{bundle.inputData.round}}/transactions/{{bundle.inputData.txid}}/proof", {
         method: "GET",
         params: {
-          hashtype: bundle.inputData.hashtype,
-          format: bundle.inputData.format
+          hashtype: "{{bundle.inputData.hashtype}}",
+          format: "{{bundle.inputData.format}}"
         },
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',

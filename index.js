@@ -15,45 +15,45 @@ module.exports = {
   },
 
 
-  triggers: {
-    //Algod triggers
-    algodGetHealth: require('./triggers/algod-get-health-check'),
-    algodGetMetrics: require('./triggers/algod-get-metrics'),
-    algodGetReady: require('./triggers/algod-get-ready'),
-    algodGetGenesis: require('./triggers/algod-get-genesis'),
-    algodGetStatus: require('./triggers/algod-get-status'),
-    algodGetStatusAfterBlock: require('./triggers/algod-get-status-after-block'),
-    algodGetTransactionParams: require('./triggers/algod-get-transaction-params'),
-    algodGetPendingTransactions: require('./triggers/algod-get-pending-transactions'),
-    algodGetPendingTransactionInformation: require('./triggers/algod-get-pending-transaction-information'),
-    algodGetVersion: require('./triggers/algod-get-version'),
-    //Algorand Element triggers
-    algodGetAccountInformation: require('./triggers/algod-get-account-information'),
-    algodGetAccountApplicationInformation: require('./triggers/algod-get-account-application-information'),
-    algodGetAccountAssetInformation: require('./triggers/algod-get-account-asset-information'),
-    algodGetAccountPendingTransactions: require('./triggers/algod-get-account-pending-transactions'),
-    algodGetApplication: require('./triggers/algod-get-application'),
-    algodGetApplicationBox: require('./triggers/algod-get-application-box'),
-    algodGetApplicationBoxes: require('./triggers/algod-get-application-boxes'),
-    algodGetAsset: require('./triggers/algod-get-asset'),
-    //Block triggers
-    algodGetBlock: require('./triggers/algod-get-block'),
-    algodGetBlockHash: require('./triggers/algod-get-block-hash'),
-    algodGetLightBlockHeaderProof: require('./triggers/algod-get-light-block-header-proof'),
-    //Deltas triggers
-    algodGetLedgerStateDelta: require('./triggers/algod-get-ledger-state-delta'),
-    algodGetLedgerStateDeltaForTransactionGroup: require('./triggers/algod-get-ledger-state-delta-for-transaction-group'),
-    algodGetTransactionGroupLedgerStateDeltasForRound: require('./triggers/algod-get-transaction-group-ledger-state-deltas-for-round'),
-    //Dev Mode triggers
-    algodGetBlockTimeStampOffset: require('./triggers/algod-get-block-timestamp-offset'),
-    //Participation triggers
-    algodGetParticipationKeys: require('./triggers/algod-get-participation-keys'),
-    algodGetParticipationKeyById: require('./triggers/algod-get-participation-key-by-id'),
-    algodGetStateProof: require('./triggers/algod-get-state-proof'),
+  triggers: {},
+
+
+  searches: {
+     //Algod searches
+     algodGetHealth: require('./searches/algod-get-health'),
+     algodGetMetrics: require('./searches/algod-get-metrics'),
+     algodGetReady: require('./searches/algod-get-ready'),
+     algodGetGenesis: require('./searches/algod-get-genesis'),
+     algodGetStatus: require('./searches/algod-get-status'),
+     algodGetStatusAfterBlock: require('./searches/algod-get-status-after-block'),
+     algodGetTransactionParams: require('./searches/algod-get-transaction-params'),
+     algodGetPendingTransactions: require('./searches/algod-get-pending-transactions'),
+     algodGetPendingTransactionInformation: require('./searches/algod-get-pending-transaction-information'),
+     algodGetVersion: require('./searches/algod-get-version'),
+     //Algorand Element searches
+     algodGetAccountInformation: require('./searches/algod-get-account-information'),
+     algodGetAccountApplicationInformation: require('./searches/algod-get-account-application-information'),
+     algodGetAccountAssetInformation: require('./searches/algod-get-account-asset-information'),
+     algodGetAccountPendingTransactions: require('./searches/algod-get-account-pending-transactions'),
+     algodGetApplication: require('./searches/algod-get-application'),
+     algodGetApplicationBox: require('./searches/algod-get-application-box'),
+     algodGetApplicationBoxes: require('./searches/algod-get-application-boxes'),
+     algodGetAsset: require('./searches/algod-get-asset'),
+     //Block searches
+     algodGetBlock: require('./searches/algod-get-block'),
+     algodGetBlockHash: require('./searches/algod-get-block-hash'),
+     algodGetLightBlockHeaderProof: require('./searches/algod-get-light-block-header-proof'),
+     //Deltas searches
+     algodGetLedgerStateDelta: require('./searches/algod-get-ledger-state-delta'),
+     algodGetLedgerStateDeltaForTransactionGroup: require('./searches/algod-get-ledger-state-delta-for-transaction-group'),
+     algodGetTransactionGroupLedgerStateDeltasForRound: require('./searches/algod-get-transaction-group-ledger-state-deltas-for-round'),
+     //Dev Mode searches
+     algodGetBlockTimeStampOffset: require('./searches/algod-get-block-timestamp-offset'),
+     //Participation searches
+     algodGetParticipationKeys: require('./searches/algod-get-participation-keys'),
+     algodGetParticipationKeyById: require('./searches/algod-get-participation-key-by-id'),
+     algodGetStateProof: require('./searches/algod-get-state-proof'),
   },
-
-
-  searches: {},
 
 
   creates: {},

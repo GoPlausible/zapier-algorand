@@ -36,7 +36,7 @@ const algodGetApplicationBoxes = async (z, bundle) => {
           key: 'max',
           label: 'Maximum Boxes',
           type: 'integer',
-          default: 0,
+          default: "0",
           required: true,
           helpText: 'Max number of box names to return. If max is not set, or max == 0, returns all box-names.',
         }

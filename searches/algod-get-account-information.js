@@ -4,8 +4,8 @@ const algodGetAccountInformation = async (z, bundle) => {
       "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/accounts/{{bundle.inputData.address}}", {
         method: "GET",
         params: {
-          format: bundle.inputData.format,
-          exclude: bundle.inputData.exclude,
+          format: "{{bundle.inputData.format}}",
+          exclude: "{{bundle.inputData.exclude}}",
         },
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',

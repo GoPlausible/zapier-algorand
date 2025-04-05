@@ -5,7 +5,7 @@ const algodGetBlock = async (z, bundle) => {
       "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/blocks/{{bundle.inputData.round}}", {
         method: "GET",
         params: {
-          format: bundle.inputData.format
+          format: "{{bundle.inputData.format}}"
         },
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',

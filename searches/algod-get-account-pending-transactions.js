@@ -1,12 +1,12 @@
 const { v4: uuidv4 } = require('uuid');
 
-const algodGetPendingTransactions = async (z, bundle) => {
+const algodGetAccountPendingTransactions = async (z, bundle) => {
     const response = await z.request(
-      "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/transactions/pending", {
+      "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/accounts/{{bundle.inputData.address}}/transactions/pending", {
         method: "GET",
         params: {
-          max: bundle.inputData.max,
-          format: bundle.inputData.format
+          max: "{{bundle.inputData.max}}",
+          format: "{{bundle.inputData.format}}"
         },
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',
@@ -18,19 +18,27 @@ const algodGetPendingTransactions = async (z, bundle) => {
   };
   
   module.exports = {
-    key: "algodGetPendingTransactions",
-    noun: "Get Pending Transactions",
+    key: "algodGetAccountPendingTransactions",
+    noun: "Get Account Pending Transactions",
     display: {
-      label: "Get pending transactions",
-      description: "Get the list of pending transactions, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.",
+      label: "Get account pending transactions",
+      description: "Get the list of pending transactions by address, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.",
     },
     operation: {
       inputFields: [
         {
+          key: 'address',
+          label: 'Account Address',
+          type: 'string',
+          required: true,
+          helpText: 'An account public key in standard Algorand format (58 characters)',
+        },
+        {
           key: 'max',
           label: 'Maximum Transactions',
           type: 'integer',
-          required: false,
+          default: "0",
+          required: true,
           helpText: 'Truncated number of transactions to display. If max=0, returns all pending transactions.',
         },
         {
@@ -43,13 +51,13 @@ const algodGetPendingTransactions = async (z, bundle) => {
           helpText: 'Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON.',
         }
       ],
-      perform: algodGetPendingTransactions,
+      perform: algodGetAccountPendingTransactions,
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",
-        "total-transactions": 2,
+        "total-transactions": 1,
         "top-transactions": [
           {
-            "sig": "signature1",
+            "sig": "signature",
             "txn": {
               "amt": 1000,
               "fee": 1000,
@@ -57,22 +65,7 @@ const algodGetPendingTransactions = async (z, bundle) => {
               "gen": "mainnet-v1.0",
               "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
               "lv": 2000,
-              "note": "note1",
-              "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
-              "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
-              "type": "pay"
-            }
-          },
-          {
-            "sig": "signature2",
-            "txn": {
-              "amt": 2000,
-              "fee": 1000,
-              "fv": 1000,
-              "gen": "mainnet-v1.0",
-              "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
-              "lv": 2000,
-              "note": "note2",
+              "note": "note",
               "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
               "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
               "type": "pay"

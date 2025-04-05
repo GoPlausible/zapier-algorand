@@ -5,7 +5,7 @@ const algodGetApplication = async (z, bundle) => {
       "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/applications/{{bundle.inputData.applicationId}}", {
         method: "GET",
         params: {
-          format: bundle.inputData.format
+          format: "{{bundle.inputData.format}}"
         },
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',
