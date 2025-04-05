@@ -197,24 +197,6 @@ Algorand Zapier integration provides numerous search operations to look up data 
 - `algodGetHealthCheck`: Check node health
 - `algodGetReady`: Check if node is ready
 
-### Future Enhancements
-
-#### Potential Triggers
-We could implement true triggers that listen for new events:
-- New Block Created
-- New Transaction in Pool
-- New Asset Created
-- New Application Created
-- Account Balance Changes
-
-#### Potential Creates
-We could implement create actions to:
-- Create Transactions
-- Create Assets
-- Create Applications
-- Opt-in to Assets/Applications
-- Add Application Boxes
-
 ## Usage
 
 Each search operation accepts specific parameters as defined in the Algorand API specification and returns structured data that can be used in subsequent steps of your Zap.
