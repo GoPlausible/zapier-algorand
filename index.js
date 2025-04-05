@@ -27,6 +27,7 @@ module.exports = {
     algodGetApplication: require('./triggers/algod-get-application'),
     algodGetApplicationBox: require('./triggers/algod-get-application-box'),
     algodGetApplicationBoxes: require('./triggers/algod-get-application-boxes'),
+    algodGetAsset: require('./triggers/algod-get-asset'),
     algodGetMetrics: require('./triggers/algod-get-metrics'),
     algodGetReady: require('./triggers/algod-get-ready'),
   },
