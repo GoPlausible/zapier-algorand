@@ -1,48 +1,47 @@
-const perform = async (z, bundle) => {
-  const { request } = bundle.inputData;
-
-  // Make request to simulate transaction
-  const response = await z.request({
-    url: `${bundle.authData.url}/v2/transactions/simulate`,
-    method: 'POST',
-    headers: {
-      'X-Algo-API-Token': bundle.authData.apiKey,
-      'Content-Type': 'application/json'
-    },
-    body: request,
-    skipThrowForStatus: true
-  });
-
-  // Handle errors
-  if (response.status === 401) {
-    throw new Error('Invalid API token');
-  }
-  if (response.status === 400) {
-    const error = response.json;
-    throw new Error(`Bad request: ${error.message}`);
-  }
-  if (response.status === 500) {
-    throw new Error('Internal server error occurred');
-  }
-  if (response.status === 503) {
-    throw new Error('Service temporarily unavailable');
-  }
-  if (response.status !== 200) {
-    throw new Error(`Unexpected error: ${response.status}`);
-  }
-
-  // Return successful response
-  return response.json;
-};
-
 module.exports = {
-  key: 'algod_simulate_transaction',
+  key: 'algodSimulateTransaction',
   noun: 'Transaction',
   display: {
     label: 'Simulate Transaction',
     description: 'Simulates a raw transaction or transaction group as it would be evaluated on the network'
   },
   operation: {
+    perform: async (z, bundle) => {
+      const { request } = bundle.inputData;
+    
+      // Make request to simulate transaction
+      const response = await z.request({
+        url: `${bundle.authData.url}/v2/transactions/simulate`,
+        method: 'POST',
+        headers: {
+          'X-Algo-API-Token': bundle.authData.apiKey,
+          'Content-Type': 'application/json'
+        },
+        body: request,
+        skipThrowForStatus: true
+      });
+    
+      // Handle errors
+      if (response.status === 401) {
+        throw new Error('Invalid API token');
+      }
+      if (response.status === 400) {
+        const error = response.json;
+        throw new Error(`Bad request: ${error.message}`);
+      }
+      if (response.status === 500) {
+        throw new Error('Internal server error occurred');
+      }
+      if (response.status === 503) {
+        throw new Error('Service temporarily unavailable');
+      }
+      if (response.status !== 200) {
+        throw new Error(`Unexpected error: ${response.status}`);
+      }
+    
+      // Return successful response
+      return response.json;
+    },
     inputFields: [
       {
         key: 'request',
@@ -81,7 +80,8 @@ module.exports = {
       {
         key: 'txn-groups',
         label: 'Transaction Group Results',
-        type: 'array'
+        type: 'string',
+        helpText: 'JSON array of transaction group simulation results'
       },
       {
         key: 'version',
@@ -91,7 +91,8 @@ module.exports = {
       {
         key: 'eval-overrides',
         label: 'Evaluation Overrides',
-        type: 'object'
+        type: 'string',
+        helpText: 'JSON object containing evaluation parameter overrides'
       }
     ]
   }

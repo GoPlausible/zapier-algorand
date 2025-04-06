@@ -1,48 +1,47 @@
-const perform = async (z, bundle) => {
-  const { request } = bundle.inputData;
-
-  // Make request to dryrun TEAL
-  const response = await z.request({
-    url: `${bundle.authData.url}/v2/teal/dryrun`,
-    method: 'POST',
-    headers: {
-      'X-Algo-API-Token': bundle.authData.apiKey,
-      'Content-Type': 'application/json'
-    },
-    body: request,
-    skipThrowForStatus: true
-  });
-
-  // Handle errors
-  if (response.status === 404) {
-    throw new Error('Developer API not enabled on the node');
-  }
-  if (response.status === 401) {
-    throw new Error('Invalid API token');
-  }
-  if (response.status === 400) {
-    const error = response.json;
-    throw new Error(`TEAL dryrun failed: ${error.message}`);
-  }
-  if (response.status === 500) {
-    throw new Error('Internal server error occurred');
-  }
-  if (response.status !== 200) {
-    throw new Error(`Unexpected error: ${response.status}`);
-  }
-
-  // Return successful response
-  return response.json;
-};
-
 module.exports = {
-  key: 'algod_dryrun_teal',
+  key: 'algodDryrunTeal',
   noun: 'TEAL Program',
   display: {
     label: 'Dryrun TEAL Program',
     description: 'Executes TEAL program(s) in context and returns debugging information'
   },
   operation: {
+    perform: async (z, bundle) => {
+      const { request } = bundle.inputData;
+    
+      // Make request to dryrun TEAL
+      const response = await z.request({
+        url: `${bundle.authData.url}/v2/teal/dryrun`,
+        method: 'POST',
+        headers: {
+          'X-Algo-API-Token': bundle.authData.apiKey,
+          'Content-Type': 'application/json'
+        },
+        body: request,
+        skipThrowForStatus: true
+      });
+    
+      // Handle errors
+      if (response.status === 404) {
+        throw new Error('Developer API not enabled on the node');
+      }
+      if (response.status === 401) {
+        throw new Error('Invalid API token');
+      }
+      if (response.status === 400) {
+        const error = response.json;
+        throw new Error(`TEAL dryrun failed: ${error.message}`);
+      }
+      if (response.status === 500) {
+        throw new Error('Internal server error occurred');
+      }
+      if (response.status !== 200) {
+        throw new Error(`Unexpected error: ${response.status}`);
+      }
+    
+      // Return successful response
+      return response.json;
+    },
     inputFields: [
       {
         key: 'request',
@@ -86,7 +85,8 @@ module.exports = {
       {
         key: 'txns',
         label: 'Transaction Results',
-        type: 'array'
+        type: 'string',
+        helpText: 'JSON array of transaction execution results'
       }
     ]
   }
