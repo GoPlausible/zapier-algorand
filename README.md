@@ -6,6 +6,8 @@ This repository is [GoPlausible](https://goplausible.com)'s remote contribution 
 
 This integration is powered by [Nodely](https://nodely.io/)'s great APIs for Algorand. Shoutout and kudos to [Nodely](https://nodely.io/) for their amazing work in providing a reliable and efficient API for Algorand, we all enjoy.
 
+```
+
 ===============================================================================
  Language            Files        Lines         Code     Comments       Blanks
 ===============================================================================
@@ -20,6 +22,7 @@ This integration is powered by [Nodely](https://nodely.io/)'s great APIs for Alg
 ===============================================================================
  Total                  69        24464        21273         2267          924
 ===============================================================================
+```
 
 ## Project Structure
 
