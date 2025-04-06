@@ -4216,7 +4216,246 @@
       }
     }
   },
-  "creates": {},
+  "creates": {
+    "algodCompileTeal": {
+      "key": "algodCompileTeal",
+      "noun": "TEAL Program",
+      "display": {
+        "label": "Compile TEAL Program",
+        "description": "Compiles TEAL source code to binary and produces its hash"
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "tealSource",
+            "label": "TEAL Source Code",
+            "type": "text",
+            "required": true,
+            "helpText": "The TEAL source code to compile"
+          },
+          {
+            "key": "sourcemap",
+            "label": "Include Source Map",
+            "type": "boolean",
+            "required": false,
+            "default": "false",
+            "helpText": "When enabled, returns the source map of the program as JSON"
+          }
+        ],
+        "sample": {
+          "hash": "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567",
+          "result": "base64EncodedProgramBytes==",
+          "sourcemap": "{}"
+        },
+        "outputFields": [
+          {
+            "key": "hash",
+            "label": "Program Hash",
+            "type": "string"
+          },
+          {
+            "key": "result",
+            "label": "Compiled Bytes",
+            "type": "string"
+          },
+          {
+            "key": "sourcemap",
+            "label": "Source Map",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "algodBroadcastRawTransaction": {
+      "key": "algodBroadcastRawTransaction",
+      "noun": "Transaction",
+      "display": {
+        "label": "Broadcast Raw Transaction",
+        "description": "Broadcasts a raw signed transaction or transaction group to the network"
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "signedTransaction",
+            "label": "Signed Transaction",
+            "type": "string",
+            "required": true,
+            "helpText": "Base64 encoded signed transaction to broadcast"
+          }
+        ],
+        "sample": {
+          "txId": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        },
+        "outputFields": [
+          {
+            "key": "txId",
+            "label": "Transaction ID",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "algodDisassembleTeal": {
+      "key": "algodDisassembleTeal",
+      "noun": "TEAL Program",
+      "display": {
+        "label": "Disassemble TEAL Program",
+        "description": "Disassembles TEAL program bytes back into source code"
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "programBytes",
+            "label": "Program Bytes",
+            "type": "string",
+            "required": true,
+            "helpText": "Base64 encoded TEAL program bytes to disassemble"
+          }
+        ],
+        "sample": {
+          "result": "#pragma version 6\nint 1\nreturn"
+        },
+        "outputFields": [
+          {
+            "key": "result",
+            "label": "TEAL Source Code",
+            "type": "string"
+          }
+        ]
+      }
+    },
+    "algodDryrunTeal": {
+      "key": "algodDryrunTeal",
+      "noun": "TEAL Program",
+      "display": {
+        "label": "Dryrun TEAL Program",
+        "description": "Executes TEAL program(s) in context and returns debugging information"
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "request",
+            "label": "Dryrun Request",
+            "type": "string",
+            "required": true,
+            "helpText": "JSON string containing the dryrun request data including transactions and simulation state"
+          }
+        ],
+        "sample": {
+          "error": "",
+          "protocol-version": "future",
+          "txns": [
+            {
+              "app-call-messages": [
+                "PASS"
+              ],
+              "app-call-trace": [
+                {
+                  "line": 1,
+                  "pc": 1,
+                  "stack": []
+                }
+              ],
+              "disassembly": [
+                "#pragma version 6",
+                "int 1",
+                "return"
+              ],
+              "global-delta": [],
+              "local-deltas": [],
+              "logs": []
+            }
+          ]
+        },
+        "outputFields": [
+          {
+            "key": "error",
+            "label": "Error",
+            "type": "string"
+          },
+          {
+            "key": "protocol-version",
+            "label": "Protocol Version",
+            "type": "string"
+          },
+          {
+            "key": "txns",
+            "label": "Transaction Results",
+            "type": "string",
+            "helpText": "JSON array of transaction execution results"
+          }
+        ]
+      }
+    },
+    "algodSimulateTransaction": {
+      "key": "algodSimulateTransaction",
+      "noun": "Transaction",
+      "display": {
+        "label": "Simulate Transaction",
+        "description": "Simulates a raw transaction or transaction group as it would be evaluated on the network"
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "request",
+            "label": "Simulation Request",
+            "type": "string",
+            "required": true,
+            "helpText": "JSON string containing the simulation request data including transactions and other inputs"
+          }
+        ],
+        "sample": {
+          "last-round": 1000,
+          "txn-groups": [
+            {
+              "app-budget-added": 700,
+              "app-budget-consumed": 100,
+              "txn-results": [
+                {
+                  "app-budget-consumed": 100,
+                  "txn-result": {
+                    "confirmed-round": 1000,
+                    "pool-error": "",
+                    "txn": {}
+                  }
+                }
+              ]
+            }
+          ],
+          "version": 1
+        },
+        "outputFields": [
+          {
+            "key": "last-round",
+            "label": "Last Round",
+            "type": "integer"
+          },
+          {
+            "key": "txn-groups",
+            "label": "Transaction Group Results",
+            "type": "string",
+            "helpText": "JSON array of transaction group simulation results"
+          },
+          {
+            "key": "version",
+            "label": "Version",
+            "type": "integer"
+          },
+          {
+            "key": "eval-overrides",
+            "label": "Evaluation Overrides",
+            "type": "string",
+            "helpText": "JSON object containing evaluation parameter overrides"
+          }
+        ]
+      }
+    }
+  },
   "resources": {
     "account": {
       "key": "account",
