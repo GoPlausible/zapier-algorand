@@ -4,11 +4,7 @@ This integration allows you to connect Algorand blockchain with thousands of oth
 
 This repository is GoPlausible's remote contribution to [Algorand Developer Retreat](https://github.com/organizations/Algorand-Developer-Retreat). 
 
-In Zapier integrations in general, integration functionality is defined in terms of **Triggers**, **Searches**, **Creates**, and **Resources**. These are how Zapier maps Algorand Algod and Indexer API's features into automation building blocks:
-
----
-
-
+This integration is powered by Nodely's great APIs for Algorand and exposes Algorand's data and functionality through Zapier's integration standard building blocks:
 
 ### 🔍 **1. Searches**
 
@@ -18,34 +14,47 @@ In Zapier integrations in general, integration functionality is defined in terms
 
 ```js
 // Example Search from algod-get-account-information.js
-const accountSearch = {
-  key: 'algodGetAccountInformation',
-  noun: 'Account',
+const algodGetAccountInformation = {
+  key: "algodGetAccountInformation",
+  noun: "Account",
   display: {
-    label: 'Get Account Information',
-    description: 'Get account balance and assets.',
+    label: "Account Information",
+    description: "Given a specific account public key, this call returns the accounts status, balance and spendable amounts",
   },
   operation: {
-    inputFields: [{ 
-      key: 'address',
-      required: true,
-      label: 'Account Address',
-      helpText: 'Algorand account address to look up'
-    }],
+    inputFields: [
+      {
+        key: 'address',
+        label: 'Account Address',
+        type: 'string',
+        required: true,
+        helpText: 'An account public key in standard Algorand format (58 characters)',
+      },
+      {
+        key: 'format',
+        label: 'Response Format',
+        type: 'string',
+        choices: ['json', 'msgpack'],
+        required: false,
+        default: 'json',
+        helpText: 'Configures whether the response object is JSON or MessagePack encoded.',
+      }
+    ],
     perform: async (z, bundle) => {
-      const response = await z.request({
-        url: `${bundle.authData.url}/v2/accounts/${bundle.inputData.address}`,
-        headers: {
-          'X-Algo-API-Token': bundle.authData.apiKey
+      const response = await z.request(
+        `http://${process.env.NETWORK}-api.algonode.cloud/v2/accounts/${bundle.inputData.address}`,
+        {
+          method: "GET",
+          headers: {
+            'X-Algo-API-Token': process.env.TOKEN
+          }
         }
-      });
-      return response.data;
-    },
-  },
+      );
+      return typeof response.data === "array" ? response.data : [response.data];
+    }
+  }
 };
 ```
-
----
 
 ### ➕ **2. Creates**
 
@@ -54,14 +63,49 @@ const accountSearch = {
 
 ```js
 // Example Create from algod-compile-teal.js
-const compileTeal = {
+module.exports = {
   key: 'algodCompileTeal',
   noun: 'TEAL Program',
   display: {
     label: 'Compile TEAL Program',
-    description: 'Compiles TEAL source code to binary and produces its hash',
+    description: 'Compiles TEAL source code to binary and produces its hash'
   },
   operation: {
+    perform: async (z, bundle) => {
+      const { tealSource, sourcemap } = bundle.inputData;
+    
+      // Construct URL with optional sourcemap parameter
+      let url = `${bundle.authData.url}/v2/teal/compile`;
+      if (sourcemap) {
+        url += '?sourcemap=true';
+      }
+    
+      // Make request to compile TEAL
+      const response = await z.request({
+        url,
+        method: 'POST',
+        headers: {
+          'X-Algo-API-Token': bundle.authData.apiKey,
+          'Content-Type': 'text/plain'
+        },
+        body: tealSource,
+        skipThrowForStatus: true
+      });
+    
+      // Handle errors
+      if (response.status === 404) {
+        throw new Error('Developer API not enabled on the node');
+      }
+      if (response.status === 401) {
+        throw new Error('Invalid API token');
+      }
+      if (response.status === 400) {
+        const error = response.json;
+        throw new Error(`TEAL compilation failed: ${error.message}`);
+      }
+    
+      return response.json;
+    },
     inputFields: [
       {
         key: 'tealSource',
@@ -69,85 +113,112 @@ const compileTeal = {
         type: 'text',
         required: true,
         helpText: 'The TEAL source code to compile'
+      },
+      {
+        key: 'sourcemap',
+        label: 'Include Source Map',
+        type: 'boolean',
+        required: false,
+        default: 'false',
+        helpText: 'When enabled, returns the source map of the program as JSON'
       }
-    ],
-    perform: async (z, bundle) => {
-      const response = await z.request({
-        url: `${bundle.authData.url}/v2/teal/compile`,
-        method: 'POST',
-        headers: {
-          'X-Algo-API-Token': bundle.authData.apiKey,
-          'Content-Type': 'text/plain'
-        },
-        body: bundle.inputData.tealSource
-      });
-      return response.json;
-    },
-  },
+    ]
+  }
 };
 ```
-
----
 
 ### 🧱 **3. Resources**
 
 - **What it does**: A reusable abstraction that combines related operations for Algorand entities.
 - **Benefit**: Organizes operations by their related blockchain concepts.
 - **Example**: The `account` resource combines account-related operations:
-  - Search: Get Account Information
-  - Search: Get Account Assets
-  - Search: Get Account Applications
+  - Get: Get Account Information
+  - Search: Find Accounts
+  - List: Get Comprehensive Account Details
 
 ```js
 // Example Resource from resources/account.js
-const AccountResource = {
+module.exports = {
   key: 'account',
   noun: 'Account',
+  
+  // The get method uses algodGetAccountInformation
   get: {
     display: {
       label: 'Get Account',
-      description: 'Gets account information from Algorand.',
+      description: 'Gets information about a specific Algorand account by id.'
     },
     operation: {
-      inputFields: [{ 
-        key: 'address',
-        required: true,
-        label: 'Account Address'
-      }],
-      perform: async (z, bundle) => {
-        const response = await z.request({
-          url: `${bundle.authData.url}/v2/accounts/${bundle.inputData.address}`,
-          headers: {
-            'X-Algo-API-Token': bundle.authData.apiKey
-          }
-        });
-        return response.data;
-      },
+      perform: getAccountInfo.operation.perform,
+      inputFields: getAccountInfo.operation.inputFields,
+      sample: getAccountInfo.operation.sample
+    }
+  },
+
+  // The search method uses indexerGetAccounts
+  search: {
+    display: {
+      label: 'Find Accounts',
+      description: 'Search for Algorand accounts.'
     },
+    operation: {
+      perform: searchAccounts.operation.perform,
+      inputFields: searchAccounts.operation.inputFields,
+      sample: searchAccounts.operation.sample
+    }
+  },
+
+  // The list method combines multiple searches
+  list: {
+    display: {
+      label: 'List Account Details',
+      description: 'Gets comprehensive information about an Algorand account.'
+    },
+    operation: {
+      perform: async (z, bundle) => {
+        // Get basic account info
+        const accountInfo = await getAccountInfo.operation.perform(z, bundle);
+        
+        // Get apps local state
+        const appsLocalState = await getAccountAppsLocalState.operation.perform(z, bundle);
+        
+        // Get account assets
+        const assets = await getAccountAssets.operation.perform(z, bundle);
+        
+        // Combine all the data
+        return [{
+          account: accountInfo,
+          appsLocalState: appsLocalState,
+          assets: assets
+        }];
+      },
+      inputFields: [
+        {key: 'accountId', label: 'Account Address', type: 'string', required: true}
+      ]
+    }
   }
 };
 ```
 
----
+### ✅ **4. Triggers** (Future Implementation)
 
-### ✅ **4. Triggers**
-
-- **What it does**: Listens for new data or events from your API to *start* a Zap.
-- **How it works**: Triggers typically **poll an API endpoint** (or optionally support webhooks) to get newly created or updated items.
-- **Example**: "New Transaction in Account", "New Asset Created", or "New Application Deployed" (Note: triggers not yet completely implemented and are WIP).
+- **What it does**: Listens for new data or events from the Algorand blockchain to *start* a Zap.
+- **How it works**: Will poll for new blocks and transactions.
+- **Example**: "New Block Created", "New Transaction in Account".
 
 ```js
 // Example Trigger (Currently no triggers implemented)
 const triggerExample = {
   key: 'future_trigger',
-  noun: 'Transaction',
+  noun: 'Block',
   display: {
-    label: 'New Transaction',
-    description: 'Triggers when a new transaction is detected.',
+    label: 'New Block',
+    description: 'Triggers when a new block is added to the Algorand blockchain.',
   },
   operation: {
     perform: async (z, bundle) => {
-      // Future implementation
+      // Future implementation will poll for new blocks
+      // and return block data
     },
   },
 };
@@ -159,25 +230,11 @@ const triggerExample = {
 
 - In **Zapier Platform CLI**, each of these lives inside your `index.js` or modular files like `triggers/`, `creates/`, etc.
 - **Each function** should return a **plain JS object** or an **array of objects**, each with a unique `id`.
-- Make sure to use `z.request()` (Zapier’s wrapper around Axios) for authenticated API calls with automatic OAuth2/session handling.
+- Make sure to use `z.request()` (Zapier's wrapper around Axios) for authenticated API calls with automatic OAuth2/session handling.
 
 ---
 
-
 ## Components
-
-### Triggers
-Currently, there are no trigger operations implemented in this integration.
-
-### Resources
-The integration provides the following resources that combine related operations:
-
-- `account`: Account-related operations
-- `asset`: Asset-related operations
-- `application`: Application-related operations
-- `transaction`: Transaction-related operations
-- `block`: Block-related operations
-- `participation`: Participation-related operations
 
 ### Searches
 Algorand Zapier integration provides numerous search operations to look up data on the Algorand blockchain:
@@ -273,6 +330,164 @@ Algorand Zapier integration provides several create operations to interact with 
 
 #### Transaction Operations
 - `algodBroadcastRawTransaction`: Broadcast a signed transaction or transaction group to the network
+
+### Resources
+The integration provides the following resources that combine related operations:
+
+- `account`: Account-related operations
+- `asset`: Asset-related operations
+- `application`: Application-related operations
+- `transaction`: Transaction-related operations
+- `block`: Block-related operations
+- `participation`: Participation-related operations
+
+
+### 🚀 **4. Triggers**
+
+Currently WIP but these are available:
+
+Algorand Zapier integration provides triggers to listen for new data or events from the Algorand blockchain:
+
+#### Account Triggers
+
+##### List Account Details
+- **Description**: Gets comprehensive information about an Algorand account by ID, including apps, assets, and transactions.
+- **Input Fields**:
+  - `Account Address`: The public key of the account (required).
+- **Example Output**:
+  ```json
+  {
+    "account": {
+      "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "amount": 1234567,
+      "status": "Online",
+      "total-assets-opted-in": 0
+    },
+    "transactions": {
+      "transactions": [
+        {
+          "id": "transaction-id",
+          "type": "pay",
+          "payment-transaction": {
+            "amount": 0,
+            "receiver": "receiver-address"
+          }
+        }
+      ]
+    }
+  }
+  ```
+
+#### Asset Triggers
+
+##### List Asset Details
+- **Description**: Gets comprehensive information about an Algorand asset, including balances and transactions.
+- **Input Fields**:
+  - `Asset ID`: The unique identifier of the asset (required).
+- **Example Output**:
+  ```json
+  {
+    "asset": {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "params": {
+        "assetName": "Test Asset",
+        "total": 1000000
+      }
+    },
+    "balances": {
+      "balances": [
+        {
+          "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "amount": 0
+        }
+      ]
+    }
+  }
+  ```
+
+#### Application Triggers
+
+##### List Application Details
+- **Description**: Gets comprehensive information about an Algorand application, including boxes and logs.
+- **Input Fields**:
+  - `Application ID`: The unique identifier of the application (required).
+- **Example Output**:
+  ```json
+  {
+    "application": {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "params": {
+        "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+      }
+    },
+    "logs": {
+      "log-data": [
+        {
+          "txid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "logs": ["AAAA"]
+        }
+      ]
+    }
+  }
+  ```
+
+#### Transaction Triggers
+
+##### List Transactions
+- **Description**: Gets a list of Algorand transactions.
+- **Input Fields**:
+  - `Limit`: Maximum number of results to return (optional).
+  - `Transaction Type`: Filter by transaction type (optional).
+- **Example Output**:
+  ```json
+  {
+    "transactions": [
+      {
+        "id": "transaction-id",
+        "type": "pay",
+        "payment-transaction": {
+          "amount": 0,
+          "receiver": "receiver-address"
+        }
+      }
+    ]
+  }
+  ```
+
+#### Block Triggers
+
+##### List Block Transactions
+- **Description**: Gets a list of transactions in a specific Algorand block.
+- **Input Fields**:
+  - `Block Round`: The round number of the block (required).
+- **Example Output**:
+  ```json
+  {
+    "transactions": [
+      {
+        "id": "transaction-id",
+        "type": "pay",
+        "payment-transaction": {
+          "amount": 0,
+          "receiver": "receiver-address"
+        }
+      }
+    ]
+  }
+  ```
+
+#### Participation Triggers
+
+##### List Participation Keys
+- **Description**: Gets a list of participation keys.
+- **Example Output**:
+  ```json
+  {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+    "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+  }
+  ```
 
 ## Usage
 
