@@ -16,7 +16,7 @@
     "accountList": {
       "display": {
         "label": "List Account Details",
-        "description": "Gets comprehensive information about an Algorand account including apps, assets, and transactions."
+        "description": "Gets comprehensive information about an Algorand account by ID including apps, assets, and transactions."
       },
       "operation": {
         "perform": "$func$2$f$",
@@ -181,6 +181,554 @@
       },
       "key": "accountList",
       "noun": "Account"
+    },
+    "assetList": {
+      "display": {
+        "label": "List Asset Details",
+        "description": "Gets comprehensive information about an Algorand asset including balances and transactions."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "sample": {
+          "asset": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "index": 12345,
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "decimals": 0,
+              "total": 1000000,
+              "defaultFrozen": false,
+              "unitName": "UNIT",
+              "assetName": "Test Asset",
+              "url": "https://example.com",
+              "manager": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "reserve": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "freeze": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "clawback": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            }
+          },
+          "balances": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "balances": [
+              {
+                "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "amount": 0,
+                "is-frozen": false,
+                "deleted": false,
+                "opted-in-at-round": 0,
+                "opted-out-at-round": 0
+              }
+            ]
+          },
+          "transactions": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "transactions": [
+              {
+                "id": "transaction-id",
+                "fee": 0,
+                "first-valid": 0,
+                "last-valid": 0,
+                "sender": "sender-address",
+                "type": "pay",
+                "payment-transaction": {
+                  "amount": 0,
+                  "receiver": "receiver-address"
+                },
+                "confirmed-round": 0,
+                "round-time": 0
+              }
+            ]
+          }
+        },
+        "resource": "asset",
+        "type": "polling"
+      },
+      "key": "assetList",
+      "noun": "Asset"
+    },
+    "applicationList": {
+      "display": {
+        "label": "List Application Details",
+        "description": "Gets comprehensive information about an Algorand application including boxes and logs."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true
+          }
+        ],
+        "sample": {
+          "application": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "approval-program": "AQEAAA==",
+              "clear-state-program": "AQEAAA==",
+              "local-state-schema": {
+                "num-uint": 0,
+                "num-byte-slice": 0
+              },
+              "global-state-schema": {
+                "num-uint": 0,
+                "num-byte-slice": 0
+              }
+            }
+          },
+          "boxes": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "boxes": [
+              {
+                "name": "Ym94MQ=="
+              },
+              {
+                "name": "Ym94Mg=="
+              }
+            ]
+          },
+          "logs": {
+            "application-id": 0,
+            "current-round": 0,
+            "next-token": "next-token",
+            "log-data": [
+              {
+                "txid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "sender": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "round": 0,
+                "timestamp": 0,
+                "logs": [
+                  "AAAA"
+                ]
+              }
+            ]
+          }
+        },
+        "resource": "application",
+        "type": "polling"
+      },
+      "key": "applicationList",
+      "noun": "Application"
+    },
+    "transactionList": {
+      "display": {
+        "label": "List Transactions",
+        "description": "Gets a list of Algorand transactions."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by specific round."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "address",
+            "label": "Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by account address."
+          },
+          {
+            "key": "addressRole",
+            "label": "Address Role",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sender",
+              "receiver"
+            ],
+            "helpText": "Filter by the role of the address."
+          },
+          {
+            "key": "excludeCloseTo",
+            "label": "Exclude Close To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Whether to exclude transactions with close-to fields."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "rekeyTo",
+            "label": "Rekey To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include results which include the rekey-to field."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        },
+        "resource": "transaction",
+        "type": "polling"
+      },
+      "key": "transactionList",
+      "noun": "Transaction"
+    },
+    "blockList": {
+      "display": {
+        "label": "List Block Transactions",
+        "description": "Gets a list of transactions in a specific Algorand block."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "roundNumber",
+            "label": "Block Round",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "address",
+            "label": "Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by account address."
+          },
+          {
+            "key": "addressRole",
+            "label": "Address Role",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sender",
+              "receiver"
+            ],
+            "helpText": "Filter by the role of the address."
+          },
+          {
+            "key": "excludeCloseTo",
+            "label": "Exclude Close To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Whether to exclude transactions with close-to fields."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "rekeyTo",
+            "label": "Rekey To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include results which include the rekey-to field."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        },
+        "resource": "block",
+        "type": "polling"
+      },
+      "key": "blockList",
+      "noun": "Block"
+    },
+    "participationList": {
+      "display": {
+        "label": "List Participation Keys",
+        "description": "Gets a list of participation keys."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "effectiveFirstValid": 0,
+          "effectiveLastValid": 100000,
+          "firstValid": 0,
+          "lastValid": 100000,
+          "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "voteFirstValid": 0,
+          "voteLastValid": 100000,
+          "voteKeyDilution": 10000,
+          "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+        },
+        "resource": "participation",
+        "type": "polling"
+      },
+      "key": "participationList",
+      "noun": "Participation Key"
     }
   },
   "searches": {
@@ -289,6 +837,579 @@
       },
       "key": "accountSearch",
       "noun": "Account"
+    },
+    "assetSearch": {
+      "display": {
+        "label": "Find Asset",
+        "description": "Search for Algorand assets."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "creator",
+            "label": "Creator Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by the address that created the asset."
+          },
+          {
+            "key": "name",
+            "label": "Asset Name",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by asset name."
+          },
+          {
+            "key": "unit",
+            "label": "Unit Name",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by unit name."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "assets": [
+            {
+              "index": 0,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "decimals": 0,
+                "default-frozen": false,
+                "name": "string",
+                "name-b64": "string",
+                "total": 0,
+                "unit-name": "string",
+                "unit-name-b64": "string",
+                "url": "string",
+                "url-b64": "string",
+                "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              },
+              "created-at-round": 0,
+              "deleted": false,
+              "destroyed-at-round": 0
+            }
+          ]
+        },
+        "resource": "asset",
+        "performGet": "$func$2$f$"
+      },
+      "key": "assetSearch",
+      "noun": "Asset"
+    },
+    "applicationSearch": {
+      "display": {
+        "label": "Find Application",
+        "description": "Search for Algorand applications."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "creator",
+            "label": "Creator Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by the address that created the application."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "applications": [
+            {
+              "id": 0,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "approval-program": "ASABASI=",
+                "clear-state-program": "ASABASI=",
+                "global-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "local-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "extra-program-pages": 0
+              },
+              "created-at-round": 0,
+              "deleted": false,
+              "deleted-at-round": 0
+            }
+          ]
+        },
+        "resource": "application",
+        "performGet": "$func$2$f$"
+      },
+      "key": "applicationSearch",
+      "noun": "Application"
+    },
+    "transactionSearch": {
+      "display": {
+        "label": "Find Transaction",
+        "description": "Search for Algorand transactions."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by specific round."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "address",
+            "label": "Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by account address."
+          },
+          {
+            "key": "addressRole",
+            "label": "Address Role",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sender",
+              "receiver"
+            ],
+            "helpText": "Filter by the role of the address."
+          },
+          {
+            "key": "excludeCloseTo",
+            "label": "Exclude Close To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Whether to exclude transactions with close-to fields."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "rekeyTo",
+            "label": "Rekey To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include results which include the rekey-to field."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        },
+        "resource": "transaction",
+        "performGet": "$func$2$f$"
+      },
+      "key": "transactionSearch",
+      "noun": "Transaction"
+    },
+    "blockSearch": {
+      "display": {
+        "label": "Find Block Transactions",
+        "description": "Search for transactions in a specific Algorand block."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "roundNumber",
+            "label": "Block Round",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "address",
+            "label": "Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by account address."
+          },
+          {
+            "key": "addressRole",
+            "label": "Address Role",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sender",
+              "receiver"
+            ],
+            "helpText": "Filter by the role of the address."
+          },
+          {
+            "key": "excludeCloseTo",
+            "label": "Exclude Close To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Whether to exclude transactions with close-to fields."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "rekeyTo",
+            "label": "Rekey To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include results which include the rekey-to field."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        },
+        "resource": "block",
+        "performGet": "$func$2$f$"
+      },
+      "key": "blockSearch",
+      "noun": "Block"
+    },
+    "participationSearch": {
+      "display": {
+        "label": "Find Participation Keys",
+        "description": "Search for participation keys."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "effectiveFirstValid": 0,
+          "effectiveLastValid": 100000,
+          "firstValid": 0,
+          "lastValid": 100000,
+          "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "voteFirstValid": 0,
+          "voteLastValid": 100000,
+          "voteKeyDilution": 10000,
+          "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+        },
+        "resource": "participation",
+        "performGet": "$func$2$f$"
+      },
+      "key": "participationSearch",
+      "noun": "Participation Key"
     },
     "algodGetHealth": {
       "key": "algodGetHealth",
@@ -3103,7 +4224,7 @@
       "get": {
         "display": {
           "label": "Get Account",
-          "description": "Gets information about a specific Algorand account."
+          "description": "Gets information about a specific Algorand account by id."
         },
         "operation": {
           "perform": "$func$2$f$",
@@ -3261,7 +4382,7 @@
       "list": {
         "display": {
           "label": "List Account Details",
-          "description": "Gets comprehensive information about an Algorand account including apps, assets, and transactions."
+          "description": "Gets comprehensive information about an Algorand account by ID including apps, assets, and transactions."
         },
         "operation": {
           "perform": "$func$2$f$",
@@ -3420,6 +4541,1298 @@
                 }
               ]
             }
+          }
+        }
+      }
+    },
+    "asset": {
+      "key": "asset",
+      "noun": "Asset",
+      "get": {
+        "display": {
+          "label": "Get Asset",
+          "description": "Gets information about a specific Algorand asset by id."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": true,
+              "helpText": "The asset identifier"
+            }
+          ],
+          "sample": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "index": 12345,
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "decimals": 0,
+              "total": 1000000,
+              "defaultFrozen": false,
+              "unitName": "UNIT",
+              "assetName": "Test Asset",
+              "url": "https://example.com",
+              "manager": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "reserve": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "freeze": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "clawback": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            }
+          }
+        }
+      },
+      "search": {
+        "display": {
+          "label": "Find Asset",
+          "description": "Search for Algorand assets."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by asset ID."
+            },
+            {
+              "key": "creator",
+              "label": "Creator Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by the address that created the asset."
+            },
+            {
+              "key": "name",
+              "label": "Asset Name",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by asset name."
+            },
+            {
+              "key": "unit",
+              "label": "Unit Name",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by unit name."
+            },
+            {
+              "key": "includeAll",
+              "label": "Include All",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include all items including closed accounts, deleted applications, etc."
+            },
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "assets": [
+              {
+                "index": 0,
+                "params": {
+                  "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "decimals": 0,
+                  "default-frozen": false,
+                  "name": "string",
+                  "name-b64": "string",
+                  "total": 0,
+                  "unit-name": "string",
+                  "unit-name-b64": "string",
+                  "url": "string",
+                  "url-b64": "string",
+                  "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                "created-at-round": 0,
+                "deleted": false,
+                "destroyed-at-round": 0
+              }
+            ]
+          }
+        }
+      },
+      "list": {
+        "display": {
+          "label": "List Asset Details",
+          "description": "Gets comprehensive information about an Algorand asset including balances and transactions."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "sample": {
+            "asset": {
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "index": 12345,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "decimals": 0,
+                "total": 1000000,
+                "defaultFrozen": false,
+                "unitName": "UNIT",
+                "assetName": "Test Asset",
+                "url": "https://example.com",
+                "manager": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "reserve": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "freeze": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "clawback": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              }
+            },
+            "balances": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "balances": [
+                {
+                  "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "amount": 0,
+                  "is-frozen": false,
+                  "deleted": false,
+                  "opted-in-at-round": 0,
+                  "opted-out-at-round": 0
+                }
+              ]
+            },
+            "transactions": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "transactions": [
+                {
+                  "id": "transaction-id",
+                  "fee": 0,
+                  "first-valid": 0,
+                  "last-valid": 0,
+                  "sender": "sender-address",
+                  "type": "pay",
+                  "payment-transaction": {
+                    "amount": 0,
+                    "receiver": "receiver-address"
+                  },
+                  "confirmed-round": 0,
+                  "round-time": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "application": {
+      "key": "application",
+      "noun": "Application",
+      "get": {
+        "display": {
+          "label": "Get Application",
+          "description": "Gets information about a specific Algorand application."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": true,
+              "helpText": "The application identifier"
+            },
+            {
+              "key": "format",
+              "label": "Response Format",
+              "type": "string",
+              "choices": [
+                "json",
+                "msgpack"
+              ],
+              "required": false,
+              "default": "json",
+              "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+            }
+          ],
+          "sample": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "approval-program": "AQEAAA==",
+              "clear-state-program": "AQEAAA==",
+              "local-state-schema": {
+                "num-uint": 0,
+                "num-byte-slice": 0
+              },
+              "global-state-schema": {
+                "num-uint": 0,
+                "num-byte-slice": 0
+              }
+            }
+          }
+        }
+      },
+      "search": {
+        "display": {
+          "label": "Find Application",
+          "description": "Search for Algorand applications."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by application ID."
+            },
+            {
+              "key": "creator",
+              "label": "Creator Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by the address that created the application."
+            },
+            {
+              "key": "includeAll",
+              "label": "Include All",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include all items including closed accounts, deleted applications, etc."
+            },
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "applications": [
+              {
+                "id": 0,
+                "params": {
+                  "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "approval-program": "ASABASI=",
+                  "clear-state-program": "ASABASI=",
+                  "global-state-schema": {
+                    "num-uint": 0,
+                    "num-byte-slice": 0
+                  },
+                  "local-state-schema": {
+                    "num-uint": 0,
+                    "num-byte-slice": 0
+                  },
+                  "extra-program-pages": 0
+                },
+                "created-at-round": 0,
+                "deleted": false,
+                "deleted-at-round": 0
+              }
+            ]
+          }
+        }
+      },
+      "list": {
+        "display": {
+          "label": "List Application Details",
+          "description": "Gets comprehensive information about an Algorand application including boxes and logs."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": true
+            }
+          ],
+          "sample": {
+            "application": {
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "approval-program": "AQEAAA==",
+                "clear-state-program": "AQEAAA==",
+                "local-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "global-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                }
+              }
+            },
+            "boxes": {
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "boxes": [
+                {
+                  "name": "Ym94MQ=="
+                },
+                {
+                  "name": "Ym94Mg=="
+                }
+              ]
+            },
+            "logs": {
+              "application-id": 0,
+              "current-round": 0,
+              "next-token": "next-token",
+              "log-data": [
+                {
+                  "txid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                  "sender": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "round": 0,
+                  "timestamp": 0,
+                  "logs": [
+                    "AAAA"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "transaction": {
+      "key": "transaction",
+      "noun": "Transaction",
+      "get": {
+        "display": {
+          "label": "Get Transaction",
+          "description": "Gets information about a specific Algorand transaction."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "txid",
+              "label": "Transaction ID",
+              "type": "string",
+              "required": true,
+              "helpText": "The transaction ID to look up."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "transaction": {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          }
+        }
+      },
+      "search": {
+        "display": {
+          "label": "Find Transaction",
+          "description": "Search for Algorand transactions."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            },
+            {
+              "key": "notePrefix",
+              "label": "Note Prefix",
+              "type": "string",
+              "required": false,
+              "helpText": "Specifies a prefix which must be contained in the note field."
+            },
+            {
+              "key": "txType",
+              "label": "Transaction Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "pay",
+                "keyreg",
+                "acfg",
+                "axfer",
+                "afrz",
+                "appl",
+                "stpf"
+              ],
+              "helpText": "Filter by transaction type."
+            },
+            {
+              "key": "sigType",
+              "label": "Signature Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sig",
+                "msig",
+                "lsig"
+              ],
+              "helpText": "Filter by signature type."
+            },
+            {
+              "key": "txid",
+              "label": "Transaction ID",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by transaction ID."
+            },
+            {
+              "key": "round",
+              "label": "Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by specific round."
+            },
+            {
+              "key": "minRound",
+              "label": "Minimum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or after the specified round."
+            },
+            {
+              "key": "maxRound",
+              "label": "Maximum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or before the specified round."
+            },
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by asset ID."
+            },
+            {
+              "key": "beforeTime",
+              "label": "Before Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results before this time (RFC 3339 format)."
+            },
+            {
+              "key": "afterTime",
+              "label": "After Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results after this time (RFC 3339 format)."
+            },
+            {
+              "key": "currencyGreaterThan",
+              "label": "Amount Greater Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount greater than this value."
+            },
+            {
+              "key": "currencyLessThan",
+              "label": "Amount Less Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount less than this value."
+            },
+            {
+              "key": "address",
+              "label": "Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by account address."
+            },
+            {
+              "key": "addressRole",
+              "label": "Address Role",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sender",
+                "receiver"
+              ],
+              "helpText": "Filter by the role of the address."
+            },
+            {
+              "key": "excludeCloseTo",
+              "label": "Exclude Close To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Whether to exclude transactions with close-to fields."
+            },
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by application ID."
+            },
+            {
+              "key": "rekeyTo",
+              "label": "Rekey To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include results which include the rekey-to field."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "transactions": [
+              {
+                "id": "transaction-id",
+                "fee": 0,
+                "first-valid": 0,
+                "last-valid": 0,
+                "sender": "sender-address",
+                "type": "pay",
+                "payment-transaction": {
+                  "amount": 0,
+                  "receiver": "receiver-address"
+                },
+                "confirmed-round": 0,
+                "round-time": 0
+              }
+            ]
+          }
+        }
+      },
+      "list": {
+        "display": {
+          "label": "List Transactions",
+          "description": "Gets a list of Algorand transactions."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            },
+            {
+              "key": "notePrefix",
+              "label": "Note Prefix",
+              "type": "string",
+              "required": false,
+              "helpText": "Specifies a prefix which must be contained in the note field."
+            },
+            {
+              "key": "txType",
+              "label": "Transaction Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "pay",
+                "keyreg",
+                "acfg",
+                "axfer",
+                "afrz",
+                "appl",
+                "stpf"
+              ],
+              "helpText": "Filter by transaction type."
+            },
+            {
+              "key": "sigType",
+              "label": "Signature Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sig",
+                "msig",
+                "lsig"
+              ],
+              "helpText": "Filter by signature type."
+            },
+            {
+              "key": "txid",
+              "label": "Transaction ID",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by transaction ID."
+            },
+            {
+              "key": "round",
+              "label": "Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by specific round."
+            },
+            {
+              "key": "minRound",
+              "label": "Minimum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or after the specified round."
+            },
+            {
+              "key": "maxRound",
+              "label": "Maximum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or before the specified round."
+            },
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by asset ID."
+            },
+            {
+              "key": "beforeTime",
+              "label": "Before Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results before this time (RFC 3339 format)."
+            },
+            {
+              "key": "afterTime",
+              "label": "After Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results after this time (RFC 3339 format)."
+            },
+            {
+              "key": "currencyGreaterThan",
+              "label": "Amount Greater Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount greater than this value."
+            },
+            {
+              "key": "currencyLessThan",
+              "label": "Amount Less Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount less than this value."
+            },
+            {
+              "key": "address",
+              "label": "Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by account address."
+            },
+            {
+              "key": "addressRole",
+              "label": "Address Role",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sender",
+                "receiver"
+              ],
+              "helpText": "Filter by the role of the address."
+            },
+            {
+              "key": "excludeCloseTo",
+              "label": "Exclude Close To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Whether to exclude transactions with close-to fields."
+            },
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by application ID."
+            },
+            {
+              "key": "rekeyTo",
+              "label": "Rekey To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include results which include the rekey-to field."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "transactions": [
+              {
+                "id": "transaction-id",
+                "fee": 0,
+                "first-valid": 0,
+                "last-valid": 0,
+                "sender": "sender-address",
+                "type": "pay",
+                "payment-transaction": {
+                  "amount": 0,
+                  "receiver": "receiver-address"
+                },
+                "confirmed-round": 0,
+                "round-time": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    "block": {
+      "key": "block",
+      "noun": "Block",
+      "get": {
+        "display": {
+          "label": "Get Block",
+          "description": "Gets information about a specific Algorand block."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "round",
+              "label": "Round",
+              "type": "integer",
+              "required": true,
+              "helpText": "The round from which to fetch block information."
+            },
+            {
+              "key": "format",
+              "label": "Response Format",
+              "type": "string",
+              "choices": [
+                "json",
+                "msgpack"
+              ],
+              "required": false,
+              "default": "json",
+              "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+            }
+          ],
+          "sample": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "block": {
+              "gen": "mainnet-v1.0",
+              "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+              "prev": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+              "rnd": 12345,
+              "seed": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+              "ts": 1234567890,
+              "txn": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+            }
+          }
+        }
+      },
+      "search": {
+        "display": {
+          "label": "Find Block Transactions",
+          "description": "Search for transactions in a specific Algorand block."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "roundNumber",
+              "label": "Block Round",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            },
+            {
+              "key": "notePrefix",
+              "label": "Note Prefix",
+              "type": "string",
+              "required": false,
+              "helpText": "Specifies a prefix which must be contained in the note field."
+            },
+            {
+              "key": "txType",
+              "label": "Transaction Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "pay",
+                "keyreg",
+                "acfg",
+                "axfer",
+                "afrz",
+                "appl",
+                "stpf"
+              ],
+              "helpText": "Filter by transaction type."
+            },
+            {
+              "key": "sigType",
+              "label": "Signature Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sig",
+                "msig",
+                "lsig"
+              ],
+              "helpText": "Filter by signature type."
+            },
+            {
+              "key": "txid",
+              "label": "Transaction ID",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by transaction ID."
+            },
+            {
+              "key": "minRound",
+              "label": "Minimum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or after the specified round."
+            },
+            {
+              "key": "maxRound",
+              "label": "Maximum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or before the specified round."
+            },
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by asset ID."
+            },
+            {
+              "key": "beforeTime",
+              "label": "Before Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results before this time (RFC 3339 format)."
+            },
+            {
+              "key": "afterTime",
+              "label": "After Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results after this time (RFC 3339 format)."
+            },
+            {
+              "key": "currencyGreaterThan",
+              "label": "Amount Greater Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount greater than this value."
+            },
+            {
+              "key": "currencyLessThan",
+              "label": "Amount Less Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount less than this value."
+            },
+            {
+              "key": "address",
+              "label": "Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by account address."
+            },
+            {
+              "key": "addressRole",
+              "label": "Address Role",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sender",
+                "receiver"
+              ],
+              "helpText": "Filter by the role of the address."
+            },
+            {
+              "key": "excludeCloseTo",
+              "label": "Exclude Close To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Whether to exclude transactions with close-to fields."
+            },
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by application ID."
+            },
+            {
+              "key": "rekeyTo",
+              "label": "Rekey To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include results which include the rekey-to field."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "transactions": [
+              {
+                "id": "transaction-id",
+                "fee": 0,
+                "first-valid": 0,
+                "last-valid": 0,
+                "sender": "sender-address",
+                "type": "pay",
+                "payment-transaction": {
+                  "amount": 0,
+                  "receiver": "receiver-address"
+                },
+                "confirmed-round": 0,
+                "round-time": 0
+              }
+            ]
+          }
+        }
+      },
+      "list": {
+        "display": {
+          "label": "List Block Transactions",
+          "description": "Gets a list of transactions in a specific Algorand block."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "roundNumber",
+              "label": "Block Round",
+              "type": "integer",
+              "required": true
+            },
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            },
+            {
+              "key": "notePrefix",
+              "label": "Note Prefix",
+              "type": "string",
+              "required": false,
+              "helpText": "Specifies a prefix which must be contained in the note field."
+            },
+            {
+              "key": "txType",
+              "label": "Transaction Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "pay",
+                "keyreg",
+                "acfg",
+                "axfer",
+                "afrz",
+                "appl",
+                "stpf"
+              ],
+              "helpText": "Filter by transaction type."
+            },
+            {
+              "key": "sigType",
+              "label": "Signature Type",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sig",
+                "msig",
+                "lsig"
+              ],
+              "helpText": "Filter by signature type."
+            },
+            {
+              "key": "txid",
+              "label": "Transaction ID",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by transaction ID."
+            },
+            {
+              "key": "minRound",
+              "label": "Minimum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or after the specified round."
+            },
+            {
+              "key": "maxRound",
+              "label": "Maximum Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results at or before the specified round."
+            },
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by asset ID."
+            },
+            {
+              "key": "beforeTime",
+              "label": "Before Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results before this time (RFC 3339 format)."
+            },
+            {
+              "key": "afterTime",
+              "label": "After Time",
+              "type": "string",
+              "required": false,
+              "helpText": "Include results after this time (RFC 3339 format)."
+            },
+            {
+              "key": "currencyGreaterThan",
+              "label": "Amount Greater Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount greater than this value."
+            },
+            {
+              "key": "currencyLessThan",
+              "label": "Amount Less Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount less than this value."
+            },
+            {
+              "key": "address",
+              "label": "Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Filter by account address."
+            },
+            {
+              "key": "addressRole",
+              "label": "Address Role",
+              "type": "string",
+              "required": false,
+              "choices": [
+                "sender",
+                "receiver"
+              ],
+              "helpText": "Filter by the role of the address."
+            },
+            {
+              "key": "excludeCloseTo",
+              "label": "Exclude Close To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Whether to exclude transactions with close-to fields."
+            },
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by application ID."
+            },
+            {
+              "key": "rekeyTo",
+              "label": "Rekey To",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include results which include the rekey-to field."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "transactions": [
+              {
+                "id": "transaction-id",
+                "fee": 0,
+                "first-valid": 0,
+                "last-valid": 0,
+                "sender": "sender-address",
+                "type": "pay",
+                "payment-transaction": {
+                  "amount": 0,
+                  "receiver": "receiver-address"
+                },
+                "confirmed-round": 0,
+                "round-time": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    "participation": {
+      "key": "participation",
+      "noun": "Participation Key",
+      "get": {
+        "display": {
+          "label": "Get Participation Key",
+          "description": "Gets information about a specific participation key."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "participationId",
+              "label": "Participation ID",
+              "type": "string",
+              "required": true,
+              "helpText": "The participation ID to get information about."
+            }
+          ],
+          "sample": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "effectiveFirstValid": 0,
+            "effectiveLastValid": 100000,
+            "firstValid": 0,
+            "lastValid": 100000,
+            "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "voteFirstValid": 0,
+            "voteLastValid": 100000,
+            "voteKeyDilution": 10000,
+            "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "search": {
+        "display": {
+          "label": "Find Participation Keys",
+          "description": "Search for participation keys."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "unusedToken",
+              "label": "INTERNAL USE ONLY: FORGET THIS!",
+              "type": "string",
+              "required": false,
+              "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+            }
+          ],
+          "sample": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "effectiveFirstValid": 0,
+            "effectiveLastValid": 100000,
+            "firstValid": 0,
+            "lastValid": 100000,
+            "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "voteFirstValid": 0,
+            "voteLastValid": 100000,
+            "voteKeyDilution": 10000,
+            "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          }
+        }
+      },
+      "list": {
+        "display": {
+          "label": "List Participation Keys",
+          "description": "Gets a list of participation keys."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "unusedToken",
+              "label": "INTERNAL USE ONLY: FORGET THIS!",
+              "type": "string",
+              "required": false,
+              "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+            }
+          ],
+          "sample": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "effectiveFirstValid": 0,
+            "effectiveLastValid": 100000,
+            "firstValid": 0,
+            "lastValid": 100000,
+            "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "voteFirstValid": 0,
+            "voteLastValid": 100000,
+            "voteKeyDilution": 10000,
+            "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
           }
         }
       }
