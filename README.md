@@ -2,88 +2,42 @@
 
 This integration allows you to connect Algorand blockchain with thousands of other apps through Zapier. It provides various ways to interact with the Algorand network through searches and actions.
 
-In Zapier integrations in general, your app's functionality is defined in terms of **Triggers**, **Searches**, **Creates**, and **Resources**. These are how Zapier maps your API's features into automation building blocks:
+This repository is GoPlausible's remote contribution to [Algorand Developer Retreat](https://github.com/organizations/Algorand-Developer-Retreat). 
+
+In Zapier integrations in general, integration functionality is defined in terms of **Triggers**, **Searches**, **Creates**, and **Resources**. These are how Zapier maps Algorand Algod and Indexer API's features into automation building blocks:
 
 ---
 
-### ✅ **1. Triggers**
 
-- **What it does**: Listens for new data or events from your API to *start* a Zap.
-- **How it works**: Triggers typically **poll an API endpoint** (or optionally support webhooks) to get newly created or updated items.
-- **Example**: "New Transaction in Wallet", "New VC Issued", or "New DID Registered".
 
-```js
-// Example Trigger in Zapier CLI
-const newItemTrigger = {
-  key: 'new_item',
-  noun: 'Item',
-  display: {
-    label: 'New Item',
-    description: 'Triggers when a new item is created.',
-  },
-  operation: {
-    perform: async (z, bundle) => {
-      const response = await z.request('https://api.example.com/items');
-      return response.data;
-    },
-  },
-};
-```
+### 🔍 **1. Searches**
 
----
-
-### 🔍 **2. Searches**
-
-- **What it does**: Allows a Zap to look something up in your system.
-- **Usage**: Often used for finding a user, resource, or record before creating something to avoid duplicates.
-- **Example**: "Find DID by Handle", "Find Wallet by Address".
+- **What it does**: Allows a Zap to look up data on the Algorand blockchain.
+- **Usage**: Often used for finding account information, transactions, or application state.
+- **Example**: "Get Account Information", "Find Transaction by ID".
 
 ```js
-const findItemSearch = {
-  key: 'find_item',
-  noun: 'Item',
+// Example Search from algod-get-account-information.js
+const accountSearch = {
+  key: 'algodGetAccountInformation',
+  noun: 'Account',
   display: {
-    label: 'Find Item',
-    description: 'Finds an existing item by ID.',
+    label: 'Get Account Information',
+    description: 'Get account balance and assets.',
   },
   operation: {
-    inputFields: [{ key: 'id', required: true }],
-    perform: async (z, bundle) => {
-      const response = await z.request(`https://api.example.com/items/${bundle.inputData.id}`);
-      return response.data ? [response.data] : [];
-    },
-  },
-};
-```
-
----
-
-### ➕ **3. Creates**
-
-- **What it does**: Pushes new data into your app (i.e., makes a POST or PUT).
-- **Example**: "Create a new DID", "Issue a Credential", "Mint a PLAUS".
-
-```js
-const createItem = {
-  key: 'create_item',
-  noun: 'Item',
-  display: {
-    label: 'Create Item',
-    description: 'Creates a new item in your app.',
-  },
-  operation: {
-    inputFields: [
-      { key: 'name', required: true },
-      { key: 'type' },
-    ],
+    inputFields: [{ 
+      key: 'address',
+      required: true,
+      label: 'Account Address',
+      helpText: 'Algorand account address to look up'
+    }],
     perform: async (z, bundle) => {
       const response = await z.request({
-        method: 'POST',
-        url: 'https://api.example.com/items',
-        body: {
-          name: bundle.inputData.name,
-          type: bundle.inputData.type,
-        },
+        url: `${bundle.authData.url}/v2/accounts/${bundle.inputData.address}`,
+        headers: {
+          'X-Algo-API-Token': bundle.authData.apiKey
+        }
       });
       return response.data;
     },
@@ -93,46 +47,109 @@ const createItem = {
 
 ---
 
-### 🧱 **4. Resources**
+### ➕ **2. Creates**
 
-- **What it does**: A reusable abstraction that **combines Triggers, Searches, and Creates** related to a single object (like `Item`, `Wallet`, or `DID`).
-- **Benefit**: Helps you **DRY** your integration and provide a consistent interface.
-- **Example**: A `DID` resource might have:
-  - Trigger: New DID Registered
-  - Search: Find DID by ID
-  - Create: Create a DID
+- **What it does**: Pushes new data to the Algorand blockchain.
+- **Example**: "Compile TEAL", "Broadcast Transaction".
 
 ```js
-const ItemResource = {
-  key: 'item',
-  noun: 'Item',
+// Example Create from algod-compile-teal.js
+const compileTeal = {
+  key: 'algodCompileTeal',
+  noun: 'TEAL Program',
+  display: {
+    label: 'Compile TEAL Program',
+    description: 'Compiles TEAL source code to binary and produces its hash',
+  },
+  operation: {
+    inputFields: [
+      {
+        key: 'tealSource',
+        label: 'TEAL Source Code',
+        type: 'text',
+        required: true,
+        helpText: 'The TEAL source code to compile'
+      }
+    ],
+    perform: async (z, bundle) => {
+      const response = await z.request({
+        url: `${bundle.authData.url}/v2/teal/compile`,
+        method: 'POST',
+        headers: {
+          'X-Algo-API-Token': bundle.authData.apiKey,
+          'Content-Type': 'text/plain'
+        },
+        body: bundle.inputData.tealSource
+      });
+      return response.json;
+    },
+  },
+};
+```
+
+---
+
+### 🧱 **3. Resources**
+
+- **What it does**: A reusable abstraction that combines related operations for Algorand entities.
+- **Benefit**: Organizes operations by their related blockchain concepts.
+- **Example**: The `account` resource combines account-related operations:
+  - Search: Get Account Information
+  - Search: Get Account Assets
+  - Search: Get Account Applications
+
+```js
+// Example Resource from resources/account.js
+const AccountResource = {
+  key: 'account',
+  noun: 'Account',
   get: {
     display: {
-      label: 'Get Item',
-      description: 'Gets a single item.',
+      label: 'Get Account',
+      description: 'Gets account information from Algorand.',
     },
     operation: {
-      inputFields: [{ key: 'id', required: true }],
+      inputFields: [{ 
+        key: 'address',
+        required: true,
+        label: 'Account Address'
+      }],
       perform: async (z, bundle) => {
-        const response = await z.request(`https://api.example.com/items/${bundle.inputData.id}`);
+        const response = await z.request({
+          url: `${bundle.authData.url}/v2/accounts/${bundle.inputData.address}`,
+          headers: {
+            'X-Algo-API-Token': bundle.authData.apiKey
+          }
+        });
         return response.data;
       },
     },
+  }
+};
+```
+
+---
+
+### ✅ **4. Triggers**
+
+- **What it does**: Listens for new data or events from your API to *start* a Zap.
+- **How it works**: Triggers typically **poll an API endpoint** (or optionally support webhooks) to get newly created or updated items.
+- **Example**: "New Transaction in Account", "New Asset Created", or "New Application Deployed" (Note: triggers not yet completely implemented and are WIP).
+
+```js
+// Example Trigger (Currently no triggers implemented)
+const triggerExample = {
+  key: 'future_trigger',
+  noun: 'Transaction',
+  display: {
+    label: 'New Transaction',
+    description: 'Triggers when a new transaction is detected.',
   },
-  list: {
-    display: {
-      label: 'List Items',
-      description: 'Lists all items.',
-    },
-    operation: {
-      perform: async (z, bundle) => {
-        const response = await z.request('https://api.example.com/items');
-        return response.data;
-      },
+  operation: {
+    perform: async (z, bundle) => {
+      // Future implementation
     },
   },
-  create: createItem.operation,  // reuse
-  search: findItemSearch.operation,  // reuse
 };
 ```
 
@@ -148,54 +165,114 @@ const ItemResource = {
 
 
 ## Components
+
 ### Triggers
+Currently, there are no trigger operations implemented in this integration.
+
 ### Resources
+The integration provides the following resources that combine related operations:
+
+- `account`: Account-related operations
+- `asset`: Asset-related operations
+- `application`: Application-related operations
+- `transaction`: Transaction-related operations
+- `block`: Block-related operations
+- `participation`: Participation-related operations
+
 ### Searches
 Algorand Zapier integration provides numerous search operations to look up data on the Algorand blockchain:
 
-#### Account Related
+#### Algod Node Searches
+
+##### Account Related
 - `algodGetAccountInformation`: Get account information
 - `algodGetAccountApplicationInformation`: Get account's application information
 - `algodGetAccountAssetInformation`: Get account's asset information
 - `algodGetAccountPendingTransactions`: Get account's pending transactions
 
-#### Application Related
+##### Application Related
 - `algodGetApplication`: Get application information
 - `algodGetApplicationBox`: Get application box data
 - `algodGetApplicationBoxes`: List all application boxes
 
-#### Asset Related
+##### Asset Related
 - `algodGetAsset`: Get asset information
 
-#### Block Related
+##### Block Related
 - `algodGetBlock`: Get block information
 - `algodGetBlockHash`: Get block hash
 - `algodGetLightBlockHeaderProof`: Get light block header proof
 
-#### Transaction Related
+##### Transaction Related
 - `algodGetTransactionParams`: Get transaction parameters
 - `algodGetPendingTransactions`: List pending transactions
 - `algodGetPendingTransactionInformation`: Get specific pending transaction details
 - `algodGetTransactionProof`: Get transaction proof
 
-#### State and Status
+##### State and Status
 - `algodGetLedgerStateDelta`: Get ledger state delta
 - `algodGetLedgerStateDeltaForTransactionGroup`: Get ledger delta for transaction group
 - `algodGetTransactionGroupLedgerStateDeltasForRound`: Get transaction group ledger deltas for round
 - `algodGetStatus`: Get node status
-- `algodWaitForBlock`: Wait for specific block
-- `algodGetBlockTimeStampOffset`: Get block timestamp offset
+- `algodGetStatusAfterBlock`: Get status after specific block
+- `algodGetLedgerSupply`: Get current supply information
 
-#### Participation
+##### Participation
 - `algodGetParticipationKeys`: List participation keys
 - `algodGetParticipationKeyById`: Get specific participation key
 
-#### Version and Health
+##### Version and Health
 - `algodGetVersion`: Get version information
 - `algodGetGenesis`: Get genesis information
 - `algodGetMetrics`: Get node metrics
-- `algodGetHealthCheck`: Check node health
+- `algodGetHealth`: Check node health
 - `algodGetReady`: Check if node is ready
+
+#### Indexer Node Searches
+
+##### Account Related
+- `indexerGetAccounts`: Search for accounts
+- `indexerGetAccountById`: Get account information
+- `indexerGetAccountAppsLocalState`: Get account's application local states
+- `indexerGetAccountAssets`: Get account's assets
+- `indexerGetAccountCreatedApplications`: Get applications created by account
+- `indexerGetAccountCreatedAssets`: Get assets created by account
+- `indexerGetAccountTransactions`: Get account's transaction history
+
+##### Application Related
+- `indexerGetApplications`: Search for applications
+- `indexerGetApplicationById`: Get application information
+- `indexerGetApplicationBoxByIdAndName`: Get application box by name
+- `indexerGetApplicationBoxes`: List application boxes
+- `indexerGetApplicationLogs`: Get application logs
+
+##### Asset Related
+- `indexerGetAssets`: Search for assets
+- `indexerGetAssetById`: Get asset information
+- `indexerGetAssetBalances`: Get asset holders
+- `indexerGetAssetTransactions`: Get asset transactions
+
+##### Block Related
+- `indexerGetBlock`: Get block information
+
+##### Transaction Related
+- `indexerGetTransactions`: Search for transactions
+- `indexerGetTransactionById`: Get transaction information
+
+##### Health
+- `indexerGetHealth`: Check indexer health
+
+### Creates
+Algorand Zapier integration provides several create operations to interact with the Algorand blockchain:
+
+#### TEAL Operations
+- `algodCompileTeal`: Compile TEAL source code to binary and produce its hash
+- `algodDisassembleTeal`: Disassemble TEAL program bytes back into source code
+- `algodDryrunTeal`: Execute TEAL program(s) in context and get debugging information
+- `algodSimulateTransaction`: Simulate transaction execution as it would be evaluated on the network
+
+#### Transaction Operations
+- `algodBroadcastRawTransaction`: Broadcast a signed transaction or transaction group to the network
 
 ## Usage
 
