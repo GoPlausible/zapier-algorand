@@ -6,24 +6,6 @@ This repository is [GoPlausible](https://goplausible.com)'s remote contribution 
 
 This integration is powered by [Nodely](https://nodely.io/)'s great APIs for Algorand. Shoutout and kudos to [Nodely](https://nodely.io/) for their amazing work in providing a reliable and efficient API for Algorand, we all enjoy.
 
-```
-
-===============================================================================
- Language            Files        Lines         Code     Comments       Blanks
-===============================================================================
- JavaScript             62         4589         4295           94          200
- JSON                    4        16980        16978            0            2
--------------------------------------------------------------------------------
- Markdown                3         2955            0         2226          729
- |- BASH                 2            5            5            0            0
- |- JavaScript           1           90           88            2            0
- |- JSON                 1           82           82            0            0
- (Total)                           3132          175         2228          729
-===============================================================================
- Total                  69        24524        21273         2320          931
-===============================================================================
-```
-
 ## Project Structure
 
 The repository is organized as follows:
@@ -589,3 +571,23 @@ This integration is built using the Zapier CLI Platform. To contribute:
 - All search operations follow consistent patterns for error handling and response formatting
 - Each operation includes detailed sample responses for testing
 - Operations that return arrays are properly handled with UUID generation for Zapier's deduplication
+
+## Code Stats
+
+```
+
+===============================================================================
+ Language            Files        Lines         Code     Comments       Blanks
+===============================================================================
+ JavaScript             62         4589         4295           94          200
+ JSON                    4        16980        16978            0            2
+-------------------------------------------------------------------------------
+ Markdown                3         2955            0         2226          729
+ |- BASH                 2            5            5            0            0
+ |- JavaScript           1           90           88            2            0
+ |- JSON                 1           82           82            0            0
+ (Total)                           3132          175         2228          729
+===============================================================================
+ Total                  69        24524        21273         2320          931
+===============================================================================
+```
