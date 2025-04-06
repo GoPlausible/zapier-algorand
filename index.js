@@ -90,6 +90,11 @@ module.exports = {
   creates: {},
 
   resources: {
-    account: require('./resources/account')
+    account: require('./resources/account'),
+    asset: require('./resources/asset'),
+    application: require('./resources/application'),
+    transaction: require('./resources/transaction'),
+    block: require('./resources/block'),
+    participation: require('./resources/participation')
   },
 };

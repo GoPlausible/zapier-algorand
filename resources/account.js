@@ -16,7 +16,7 @@ module.exports = {
   get: {
     display: {
       label: 'Get Account',
-      description: 'Gets information about a specific Algorand account.'
+      description: 'Gets information about a specific Algorand account by id.'
     },
     operation: {
       perform: getAccountInfo.operation.perform,
@@ -42,7 +42,7 @@ module.exports = {
   list: {
     display: {
       label: 'List Account Details',
-      description: 'Gets comprehensive information about an Algorand account including apps, assets, and transactions.'
+      description: 'Gets comprehensive information about an Algorand account by ID including apps, assets, and transactions.'
     },
     operation: {
       perform: async (z, bundle) => {
