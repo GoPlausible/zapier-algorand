@@ -1,25 +1,26 @@
-const algodGetGenesis = async (z, bundle) => {
+const { v4: uuidv4 } = require('uuid');
+
+const algodGetLedgerSupply = async (z, bundle) => {
     const response = await z.request(
-      "http://{{process.env.NETWORK}}-api.algonode.cloud/genesis", {
+      "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/ledger/supply", {
         method: "GET",
-        params: {},
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',
         },
       }
     );
+    if(response.data)response.data.id = uuidv4();
     return typeof response.data === "array" ? response.data : response.data === null ? []:[response.data];
   };
   
   module.exports = {
-    key: "algodGetGenesis",
-    noun: "Algod Genesis",
+    key: "algodGetLedgerSupply",
+    noun: "Supply",
     display: {
-      label: "Algod Network Genesis Information",
-      description: "Returns the entire genesis file in json.",
+      label: "Current Supply",
+      description: "Get the current supply reported by the ledger.",
     },
     operation: {
-      perform: algodGetGenesis,
       inputFields: [
         {
           key: 'unusedToken',
@@ -28,9 +29,12 @@ const algodGetGenesis = async (z, bundle) => {
           required: false,
           helpText: 'The custom token to satisfy the search schema need for at least one search field. This is not used in the search.',
         }
-    ],
+      ],
+      perform: algodGetLedgerSupply,
       sample: {
-        "status": "OK",
+        "current_round": 12345,
+        "online-money": 1234567,
+        "total-money": 1234567
       },
     },
   };

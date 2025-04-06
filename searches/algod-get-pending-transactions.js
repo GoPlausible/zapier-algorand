@@ -19,9 +19,9 @@ const algodGetPendingTransactions = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetPendingTransactions",
-    noun: "Get Pending Transactions",
+    noun: "Pending Transactions",
     display: {
-      label: "Get Pending Transactions",
+      label: "Pending Transactions",
       description: "Get the list of pending transactions, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions.",
     },
     operation: {

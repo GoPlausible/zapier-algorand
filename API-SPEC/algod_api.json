@@ -2282,12 +2282,169 @@
         ]
       }
     },
-    "/swagger.json": {
+    "/versions": {
       "get": {
-        "description": "Returns the entire swagger spec in json.",
-        "operationId": "SwaggerJSON",
+        "description": "Retrieves the supported API versions, binary build versions, and genesis information.",
+        "operationId": "GetVersion",
         "responses": {
           "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Version"
+                }
+              }
+            },
+            "description": "VersionsResponse is the response to 'GET /versions'"
+          }
+        },
+        "tags": [
+          "public",
+          "common"
+        ]
+      }
+    },
+    "/v2/status": {
+      "get": {
+        "operationId": "GetStatus",
+        "responses": {
+          "200": {
+            "description": "NodeStatus contains the information about a node status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "catchpoint": {
+                      "description": "The current catchpoint that is being caught up to",
+                      "type": "string"
+                    },
+                    "catchpoint-acquired-blocks": {
+                      "description": "The number of blocks that have already been obtained by the node as part of the catchup",
+                      "type": "integer"
+                    },
+                    "catchpoint-processed-accounts": {
+                      "description": "The number of accounts from the current catchpoint that have been processed so far as part of the catchup",
+                      "type": "integer"
+                    },
+                    "catchpoint-processed-kvs": {
+                      "description": "The number of key-values (KVs) from the current catchpoint that have been processed so far as part of the catchup",
+                      "type": "integer"
+                    },
+                    "catchpoint-total-accounts": {
+                      "description": "The total number of accounts included in the current catchpoint",
+                      "type": "integer"
+                    },
+                    "catchpoint-total-blocks": {
+                      "description": "The total number of blocks that are required to complete the current catchpoint catchup",
+                      "type": "integer"
+                    },
+                    "catchpoint-total-kvs": {
+                      "description": "The total number of key-values (KVs) included in the current catchpoint",
+                      "type": "integer"
+                    },
+                    "catchpoint-verified-accounts": {
+                      "description": "The number of accounts from the current catchpoint that have been verified so far as part of the catchup",
+                      "type": "integer"
+                    },
+                    "catchpoint-verified-kvs": {
+                      "description": "The number of key-values (KVs) from the current catchpoint that have been verified so far as part of the catchup",
+                      "type": "integer"
+                    },
+                    "catchup-time": {
+                      "description": "CatchupTime in nanoseconds",
+                      "type": "integer"
+                    },
+                    "last-catchpoint": {
+                      "description": "The last catchpoint seen by the node",
+                      "type": "string"
+                    },
+                    "last-round": {
+                      "description": "LastRound indicates the last round seen",
+                      "type": "integer"
+                    },
+                    "last-version": {
+                      "description": "LastVersion indicates the last consensus version supported",
+                      "type": "string"
+                    },
+                    "next-version": {
+                      "description": "NextVersion of consensus protocol to use",
+                      "type": "string"
+                    },
+                    "next-version-round": {
+                      "description": "NextVersionRound is the round at which the next consensus version will apply",
+                      "type": "integer"
+                    },
+                    "next-version-supported": {
+                      "description": "NextVersionSupported indicates whether the next consensus version is supported by this node",
+                      "type": "boolean"
+                    },
+                    "stopped-at-unsupported-round": {
+                      "description": "StoppedAtUnsupportedRound indicates that the node does not support the new rounds and has stopped making progress",
+                      "type": "boolean"
+                    },
+                    "time-since-last-round": {
+                      "description": "TimeSinceLastRound in nanoseconds",
+                      "type": "integer"
+                    },
+                    "upgrade-delay": {
+                      "description": "Upgrade delay",
+                      "type": "integer"
+                    },
+                    "upgrade-next-protocol-vote-before": {
+                      "description": "Next protocol round",
+                      "type": "integer"
+                    },
+                    "upgrade-no-votes": {
+                      "description": "No votes cast for consensus upgrade",
+                      "type": "integer"
+                    },
+                    "upgrade-node-vote": {
+                      "description": "This node's upgrade vote",
+                      "type": "boolean"
+                    },
+                    "upgrade-vote-rounds": {
+                      "description": "Total voting rounds for current upgrade",
+                      "type": "integer"
+                    },
+                    "upgrade-votes": {
+                      "description": "Total votes cast for consensus upgrade",
+                      "type": "integer"
+                    },
+                    "upgrade-votes-required": {
+                      "description": "Yes votes required for consensus upgrade",
+                      "type": "integer"
+                    },
+                    "upgrade-yes-votes": {
+                      "description": "Yes votes cast for consensus upgrade",
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "catchup-time",
+                    "last-round",
+                    "last-version",
+                    "next-version",
+                    "next-version-round",
+                    "next-version-supported",
+                    "stopped-at-unsupported-round",
+                    "time-since-last-round"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Invalid API Token"
+          },
+          "500": {
             "content": {
               "application/json": {
                 "schema": {
@@ -2295,17 +2452,17 @@
                 }
               }
             },
-            "description": "The current swagger spec"
+            "description": "Internal Error"
           },
           "default": {
             "content": {},
             "description": "Unknown Error"
           }
         },
-        "summary": "Gets the current swagger spec.",
+        "summary": "Gets the current node status.",
         "tags": [
           "public",
-          "common"
+          "nonparticipating"
         ]
       }
     },
@@ -3668,185 +3825,6 @@
         ]
       }
     },
-    "/v2/catchup/{catchpoint}": {
-      "delete": {
-        "description": "Given a catchpoint, it aborts catching up to this catchpoint",
-        "operationId": "AbortCatchup",
-        "parameters": [
-          {
-            "description": "A catch point",
-            "in": "path",
-            "name": "catchpoint",
-            "required": true,
-            "schema": {
-              "format": "catchpoint",
-              "pattern": "[0-9]{1,10}#[A-Z0-9]{1,53}",
-              "type": "string",
-              "x-algorand-format": "Catchpoint String"
-            },
-            "x-algorand-format": "Catchpoint String"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An catchpoint abort response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "catchup-message": {
-                      "description": "Catchup abort response string",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "catchup-message"
-                  ],
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Aborts a catchpoint catchup.",
-        "tags": [
-          "private",
-          "nonparticipating"
-        ]
-      },
-      "post": {
-        "description": "Given a catchpoint, it starts catching up to this catchpoint",
-        "operationId": "StartCatchup",
-        "parameters": [
-          {
-            "description": "A catch point",
-            "in": "path",
-            "name": "catchpoint",
-            "required": true,
-            "schema": {
-              "format": "catchpoint",
-              "pattern": "[0-9]{1,10}#[A-Z0-9]{1,53}",
-              "type": "string",
-              "x-algorand-format": "Catchpoint String"
-            },
-            "x-algorand-format": "Catchpoint String"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "An catchpoint start response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "catchup-message": {
-                      "description": "Catchup start response string",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "catchup-message"
-                  ],
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "An catchpoint start response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "catchup-message": {
-                      "description": "Catchup start response string",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "catchup-message"
-                  ],
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Starts a catchpoint catchup.",
-        "tags": [
-          "private",
-          "nonparticipating"
-        ]
-      }
-    },
     "/v2/deltas/txn/group/{id}": {
       "get": {
         "description": "Get a ledger delta for a given transaction group.",
@@ -4262,139 +4240,6 @@
         ]
       }
     },
-    "/v2/devmode/blocks/offset": {
-      "get": {
-        "description": "Gets the current timestamp offset.",
-        "operationId": "GetBlockTimeStampOffset",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "offset": {
-                      "description": "Timestamp offset in seconds.",
-                      "type": "integer"
-                    }
-                  },
-                  "required": [
-                    "offset"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Response containing the timestamp offset in seconds"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "TimeStamp offset not set."
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Returns the timestamp offset. Timestamp offsets can only be set in dev mode.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ]
-      }
-    },
-    "/v2/devmode/blocks/offset/{offset}": {
-      "post": {
-        "description": "Sets the timestamp offset (seconds) for blocks in dev mode. Providing an offset of 0 will unset this value and try to use the real clock for the timestamp.",
-        "operationId": "SetBlockTimeStampOffset",
-        "parameters": [
-          {
-            "description": "The timestamp offset for blocks in dev mode.",
-            "in": "path",
-            "name": "offset",
-            "required": true,
-            "schema": {
-              "minimum": 0,
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {},
-            "description": "OK"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Cannot set timestamp offset to a negative integer."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Given a timestamp offset in seconds, adds the offset to every subsequent block header's timestamp.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ]
-      }
-    },
-    "/v2/experimental": {
-      "get": {
-        "operationId": "ExperimentalCheck",
-        "responses": {
-          "200": {
-            "content": {},
-            "description": "Experimental API enabled"
-          },
-          "404": {
-            "content": {},
-            "description": "Experimental API not enabled"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Returns OK if experimental API is enabled.",
-        "tags": [
-          "public",
-          "experimental"
-        ]
-      }
-    },
     "/v2/ledger/supply": {
       "get": {
         "operationId": "GetSupply",
@@ -4448,214 +4293,6 @@
         "tags": [
           "public",
           "nonparticipating"
-        ]
-      }
-    },
-    "/v2/ledger/sync": {
-      "delete": {
-        "description": "Unset the ledger sync round.",
-        "operationId": "UnsetSyncRound",
-        "responses": {
-          "200": {
-            "content": {},
-            "description": ""
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Sync round not set."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Temporarily Unavailable"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Removes minimum sync round restriction from the ledger.",
-        "tags": [
-          "public",
-          "data"
-        ]
-      },
-      "get": {
-        "description": "Gets the minimum sync round for the ledger.",
-        "operationId": "GetSyncRound",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "round": {
-                      "description": "The minimum sync round for the ledger.",
-                      "type": "integer"
-                    }
-                  },
-                  "required": [
-                    "round"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "Response containing the ledger's minimum sync round"
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Sync round not set."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Temporarily Unavailable"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Returns the minimum sync round the ledger is keeping in cache.",
-        "tags": [
-          "public",
-          "data"
-        ]
-      }
-    },
-    "/v2/ledger/sync/{round}": {
-      "post": {
-        "description": "Sets the minimum sync round on the ledger.",
-        "operationId": "SetSyncRound",
-        "parameters": [
-          {
-            "description": "The round for which the deltas are desired.",
-            "in": "path",
-            "name": "round",
-            "required": true,
-            "schema": {
-              "minimum": 0,
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {},
-            "description": ""
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Can not set sync round to an earlier round than the current round."
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Temporarily Unavailable"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Given a round, tells the ledger to keep that round in its cache.",
-        "tags": [
-          "public",
-          "data"
         ]
       }
     },
@@ -5060,38 +4697,6 @@
         "x-codegen-request-body-name": "keymap"
       }
     },
-    "/v2/shutdown": {
-      "post": {
-        "description": "Special management endpoint to shutdown the node. Optionally provide a timeout parameter to indicate that the node should begin shutting down after a number of seconds.",
-        "operationId": "ShutdownNode",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "timeout",
-            "schema": {
-              "default": 0,
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "private",
-          "nonparticipating"
-        ]
-      }
-    },
     "/v2/stateproofs/{round}": {
       "get": {
         "operationId": "GetStateProof",
@@ -5174,363 +4779,6 @@
           }
         },
         "summary": "Get a state proof that covers a given round",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ]
-      }
-    },
-    "/v2/status": {
-      "get": {
-        "operationId": "GetStatus",
-        "responses": {
-          "200": {
-            "description": "NodeStatus contains the information about a node status",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "catchpoint": {
-                      "description": "The current catchpoint that is being caught up to",
-                      "type": "string"
-                    },
-                    "catchpoint-acquired-blocks": {
-                      "description": "The number of blocks that have already been obtained by the node as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-processed-accounts": {
-                      "description": "The number of accounts from the current catchpoint that have been processed so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-processed-kvs": {
-                      "description": "The number of key-values (KVs) from the current catchpoint that have been processed so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-total-accounts": {
-                      "description": "The total number of accounts included in the current catchpoint",
-                      "type": "integer"
-                    },
-                    "catchpoint-total-blocks": {
-                      "description": "The total number of blocks that are required to complete the current catchpoint catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-total-kvs": {
-                      "description": "The total number of key-values (KVs) included in the current catchpoint",
-                      "type": "integer"
-                    },
-                    "catchpoint-verified-accounts": {
-                      "description": "The number of accounts from the current catchpoint that have been verified so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-verified-kvs": {
-                      "description": "The number of key-values (KVs) from the current catchpoint that have been verified so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchup-time": {
-                      "description": "CatchupTime in nanoseconds",
-                      "type": "integer"
-                    },
-                    "last-catchpoint": {
-                      "description": "The last catchpoint seen by the node",
-                      "type": "string"
-                    },
-                    "last-round": {
-                      "description": "LastRound indicates the last round seen",
-                      "type": "integer"
-                    },
-                    "last-version": {
-                      "description": "LastVersion indicates the last consensus version supported",
-                      "type": "string"
-                    },
-                    "next-version": {
-                      "description": "NextVersion of consensus protocol to use",
-                      "type": "string"
-                    },
-                    "next-version-round": {
-                      "description": "NextVersionRound is the round at which the next consensus version will apply",
-                      "type": "integer"
-                    },
-                    "next-version-supported": {
-                      "description": "NextVersionSupported indicates whether the next consensus version is supported by this node",
-                      "type": "boolean"
-                    },
-                    "stopped-at-unsupported-round": {
-                      "description": "StoppedAtUnsupportedRound indicates that the node does not support the new rounds and has stopped making progress",
-                      "type": "boolean"
-                    },
-                    "time-since-last-round": {
-                      "description": "TimeSinceLastRound in nanoseconds",
-                      "type": "integer"
-                    },
-                    "upgrade-delay": {
-                      "description": "Upgrade delay",
-                      "type": "integer"
-                    },
-                    "upgrade-next-protocol-vote-before": {
-                      "description": "Next protocol round",
-                      "type": "integer"
-                    },
-                    "upgrade-no-votes": {
-                      "description": "No votes cast for consensus upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-node-vote": {
-                      "description": "This node's upgrade vote",
-                      "type": "boolean"
-                    },
-                    "upgrade-vote-rounds": {
-                      "description": "Total voting rounds for current upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-votes": {
-                      "description": "Total votes cast for consensus upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-votes-required": {
-                      "description": "Yes votes required for consensus upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-yes-votes": {
-                      "description": "Yes votes cast for consensus upgrade",
-                      "type": "integer"
-                    }
-                  },
-                  "required": [
-                    "catchup-time",
-                    "last-round",
-                    "last-version",
-                    "next-version",
-                    "next-version-round",
-                    "next-version-supported",
-                    "stopped-at-unsupported-round",
-                    "time-since-last-round"
-                  ],
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Gets the current node status.",
-        "tags": [
-          "public",
-          "nonparticipating"
-        ]
-      }
-    },
-    "/v2/status/wait-for-block-after/{round}": {
-      "get": {
-        "description": "Waits for a block to appear after round {round} and returns the node's status at the time.",
-        "operationId": "WaitForBlock",
-        "parameters": [
-          {
-            "description": "The round to wait until returning status",
-            "in": "path",
-            "name": "round",
-            "required": true,
-            "schema": {
-              "minimum": 0,
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "NodeStatus contains the information about a node status",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "catchpoint": {
-                      "description": "The current catchpoint that is being caught up to",
-                      "type": "string"
-                    },
-                    "catchpoint-acquired-blocks": {
-                      "description": "The number of blocks that have already been obtained by the node as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-processed-accounts": {
-                      "description": "The number of accounts from the current catchpoint that have been processed so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-processed-kvs": {
-                      "description": "The number of key-values (KVs) from the current catchpoint that have been processed so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-total-accounts": {
-                      "description": "The total number of accounts included in the current catchpoint",
-                      "type": "integer"
-                    },
-                    "catchpoint-total-blocks": {
-                      "description": "The total number of blocks that are required to complete the current catchpoint catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-total-kvs": {
-                      "description": "The total number of key-values (KVs) included in the current catchpoint",
-                      "type": "integer"
-                    },
-                    "catchpoint-verified-accounts": {
-                      "description": "The number of accounts from the current catchpoint that have been verified so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchpoint-verified-kvs": {
-                      "description": "The number of key-values (KVs) from the current catchpoint that have been verified so far as part of the catchup",
-                      "type": "integer"
-                    },
-                    "catchup-time": {
-                      "description": "CatchupTime in nanoseconds",
-                      "type": "integer"
-                    },
-                    "last-catchpoint": {
-                      "description": "The last catchpoint seen by the node",
-                      "type": "string"
-                    },
-                    "last-round": {
-                      "description": "LastRound indicates the last round seen",
-                      "type": "integer"
-                    },
-                    "last-version": {
-                      "description": "LastVersion indicates the last consensus version supported",
-                      "type": "string"
-                    },
-                    "next-version": {
-                      "description": "NextVersion of consensus protocol to use",
-                      "type": "string"
-                    },
-                    "next-version-round": {
-                      "description": "NextVersionRound is the round at which the next consensus version will apply",
-                      "type": "integer"
-                    },
-                    "next-version-supported": {
-                      "description": "NextVersionSupported indicates whether the next consensus version is supported by this node",
-                      "type": "boolean"
-                    },
-                    "stopped-at-unsupported-round": {
-                      "description": "StoppedAtUnsupportedRound indicates that the node does not support the new rounds and has stopped making progress",
-                      "type": "boolean"
-                    },
-                    "time-since-last-round": {
-                      "description": "TimeSinceLastRound in nanoseconds",
-                      "type": "integer"
-                    },
-                    "upgrade-delay": {
-                      "description": "Upgrade delay",
-                      "type": "integer"
-                    },
-                    "upgrade-next-protocol-vote-before": {
-                      "description": "Next protocol round",
-                      "type": "integer"
-                    },
-                    "upgrade-no-votes": {
-                      "description": "No votes cast for consensus upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-node-vote": {
-                      "description": "This node's upgrade vote",
-                      "type": "boolean"
-                    },
-                    "upgrade-vote-rounds": {
-                      "description": "Total voting rounds for current upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-votes": {
-                      "description": "Total votes cast for consensus upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-votes-required": {
-                      "description": "Yes votes required for consensus upgrade",
-                      "type": "integer"
-                    },
-                    "upgrade-yes-votes": {
-                      "description": "Yes votes cast for consensus upgrade",
-                      "type": "integer"
-                    }
-                  },
-                  "required": [
-                    "catchup-time",
-                    "last-round",
-                    "last-version",
-                    "next-version",
-                    "next-version-round",
-                    "next-version-supported",
-                    "stopped-at-unsupported-round",
-                    "time-since-last-round"
-                  ],
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Bad Request -- number must be non-negative integer "
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Invalid API Token"
-          },
-          "500": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Internal Error"
-          },
-          "503": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "description": "Service Temporarily Unavailable"
-          },
-          "default": {
-            "content": {},
-            "description": "Unknown Error"
-          }
-        },
-        "summary": "Gets the node status after waiting for a round after the given round.",
         "tags": [
           "public",
           "nonparticipating"
@@ -6413,29 +5661,8 @@
         ],
         "x-codegen-request-body-name": "request"
       }
-    },
-    "/versions": {
-      "get": {
-        "description": "Retrieves the supported API versions, binary build versions, and genesis information.",
-        "operationId": "GetVersion",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Version"
-                }
-              }
-            },
-            "description": "VersionsResponse is the response to 'GET /versions'"
-          }
-        },
-        "tags": [
-          "public",
-          "common"
-        ]
-      }
     }
+   
   },
   "servers": [
     {
@@ -6443,9 +5670,6 @@
     },
     {
       "url": "https://testnet-api.algonode.cloud/"
-    },
-    {
-      "url": "https://betanet-api.algonode.cloud/"
     }
   ],
   "tags": [

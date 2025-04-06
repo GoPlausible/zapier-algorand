@@ -15,9 +15,9 @@ const algodGetStatusAfterBlock = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetStatusAfterBlock",
-    noun: "Get Algod Status After Block",
+    noun: "Status After Block",
     display: {
-      label: "Get Algod Status After Block",
+      label: "Algod Status After Block",
       description: "Waits for a block to appear after round {round} and returns the node's status at the time.",
     },
     operation: {

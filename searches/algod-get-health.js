@@ -13,21 +13,21 @@ const algodGetHealth = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetHealth",
-    noun: "Get Algod Health Check",
+    noun: "Algod Health Status",
     display: {
-      label: "Get Algod Health Check",
-      description: "Get Algod API and node health",
+      label: "Algod Health Status Check Information",
+      description: "Get Algod API and node health status. if response is OK (status 200), the node is healthy.",
     },
     
     operation: {
       perform: algodGetHealth,
       inputFields: [
       {
-        key: 'customToken',
-        label: 'Custom Token',
+        key: 'unusedToken',
+        label: 'INTERNAL USE ONLY: FORGET THIS!',
         type: 'string',
         required: false,
-        helpText: 'The custom token to use for the request',
+        helpText: 'The custom token to satisfy the search schema need for at least one search field. This is not used in the search.',
       }
     ],
       sample: {

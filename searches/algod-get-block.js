@@ -18,9 +18,9 @@ const algodGetBlock = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetBlock",
-    noun: "Get Block Information",
+    noun: "Block",
     display: {
-      label: "Get Block Information",
+      label: "Block Information",
       description: "Get the block for the given round.",
     },
     operation: {

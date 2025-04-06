@@ -15,9 +15,9 @@ const algodGetBlockHash = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetBlockHash",
-    noun: "Get Block Hash",
+    noun: "Block Hash",
     display: {
-      label: "Get Block Hash",
+      label: "Block Hash",
       description: "Get the block hash for the block on the given round.",
     },
     operation: {

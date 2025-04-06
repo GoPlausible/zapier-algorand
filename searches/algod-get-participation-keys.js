@@ -15,20 +15,20 @@ const algodGetParticipationKeys = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetParticipationKeys",
-    noun: "Get Participation Keys",
+    noun: "Participation Keys",
     display: {
-      label: "Get Participation Keys",
+      label: "Participation Keys List",
       description: "Return a list of participation keys.",
     },
     operation: {
       perform: algodGetParticipationKeys,
       inputFields: [
         {
-          key: 'customToken',
-          label: 'Custom Token',
+          key: 'unusedToken',
+          label: 'INTERNAL USE ONLY: FORGET THIS!',
           type: 'string',
           required: false,
-          helpText: 'The custom token to use for the request',
+          helpText: 'The custom token to satisfy the search schema need for at least one search field. This is not used in the search.',
         }
       ],
       sample: {

@@ -18,9 +18,9 @@ const algodGetLedgerStateDeltaForTransactionGroup = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetLedgerStateDeltaForTransactionGroup",
-    noun: "Get Ledger State Delta",
+    noun: "Transaction Group State Delta",
     display: {
-      label: "Get Ledger State Delta for Transaction Group",
+      label: "Transaction Group State Delta Information",
       description: "Get a ledger delta for a given transaction group.",
     },
     operation: {

@@ -23,13 +23,13 @@ const algodGetStatus = async (z, bundle) => {
     operation: {
       perform: algodGetStatus,
       inputFields: [
-      {
-        key: 'customToken',
-        label: 'Custom Token',
-        type: 'string',
-        required: false,
-        helpText: 'The custom token to use for the request',
-      }
+        {
+          key: 'unusedToken',
+          label: 'INTERNAL USE ONLY: FORGET THIS!',
+          type: 'string',
+          required: false,
+          helpText: 'The custom token to satisfy the search schema need for at least one search field. This is not used in the search.',
+        }
     ],
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",

@@ -15,9 +15,9 @@ const algodGetAsset = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetAsset",
-    noun: "Get Asset Information",
+    noun: "Asset",
     display: {
-      label: "Get Asset Information",
+      label: "Asset Information",
       description: "Given an asset ID, it returns asset information including creator, name, total supply and special addresses.",
     },
     operation: {

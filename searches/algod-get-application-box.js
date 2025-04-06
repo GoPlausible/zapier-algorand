@@ -28,9 +28,9 @@ const algodGetApplicationBox = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetApplicationBox",
-    noun: "Get Application Box",
+    noun: "Application Box",
     display: {
-      label: "Get Application Box",
+      label: "Application Box Value",
       description: "Given an application ID and box name, it returns the round, box name, and value (each base64 encoded). Box names must be in the goal app call arg encoding form 'encoding:value'. For ints, use the form 'int:1234'. For raw bytes, use the form 'b64:A=='. For printable strings, use the form 'str:hello'. For addresses, use the form 'addr:XYZ...'.",
     },
     operation: {

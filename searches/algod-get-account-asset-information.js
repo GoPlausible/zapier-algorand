@@ -18,9 +18,9 @@ const algodGetAccountAssetInformation = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetAccountAssetInformation",
-    noun: "Get Account Asset Information",
+    noun: "Account Asset",
     display: {
-      label: "Get Account Asset Information",
+      label: "Account Asset Information",
       description: "Given a specific account public key and asset ID, this call returns the account's asset holding and asset parameters (if either exist). Asset parameters will only be returned if the provided address is the asset's creator.",
     },
     operation: {

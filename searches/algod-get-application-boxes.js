@@ -18,9 +18,9 @@ const algodGetApplicationBoxes = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetApplicationBoxes",
-    noun: "Get Application Boxes",
+    noun: "Application Boxes",
     display: {
-      label: "Get Application Boxes",
+      label: "Application Boxes List",
       description: "Given an application ID, return all Box names. No particular ordering is guaranteed. Request fails when client or server-side configured limits prevent returning all Box names.",
     },
     operation: {

@@ -18,9 +18,9 @@ const algodGetApplication = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetApplication",
-    noun: "Get Application Information",
+    noun: "Application",
     display: {
-      label: "Get Application Information",
+      label: "Application Information",
       description: "Given an application ID, it returns application information including creator, approval and clear programs, global and local schemas, and global state.",
     },
     operation: {

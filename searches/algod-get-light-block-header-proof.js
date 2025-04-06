@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const algodGetLightBlockHeaderProof = async (z, bundle) => {
     const response = await z.request(
-      "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/blocks/{{bundle.inputData.round}}/lightheader/proof", {
+      `http://{{process.env.NETWORK}}-api.algonode.cloud/v2/blocks/${bundle.inputData.round}/lightheader/proof`, {
         method: "GET",
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',
@@ -15,9 +15,9 @@ const algodGetLightBlockHeaderProof = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetLightBlockHeaderProof",
-    noun: "Get Light Block Header Proof",
+    noun: "Light Block Header Proof",
     display: {
-      label: "Get Light Block Header Proof",
+      label: "Light Block Header Proof",
       description: "Gets a proof for a given light block header inside a state proof commitment.",
     },
     operation: {
@@ -32,10 +32,9 @@ const algodGetLightBlockHeaderProof = async (z, bundle) => {
       ],
       perform: algodGetLightBlockHeaderProof,
       sample: {
-        "id": "123e4567-e89b-12d3-a456-426614174000",
-        "index": 12345,
-        "proof": "AQEAAA==", // base64 encoded proof
-        "treedepth": 8
+        "index": 1234,
+        "proof": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "treedepth": 10
       },
     },
   };

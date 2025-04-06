@@ -16,21 +16,21 @@ const algodGetReady = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetReady",
-    noun: "Get Ready Status",
+    noun: "Ready Status",
     display: {
-      label: "Get Ready Status",
+      label: "Ready Status",
       description: "Returns OK if healthy and fully caught up.",
     },
     operation: {
       perform: algodGetReady,
       inputFields: [
-      {
-        key: 'customToken',
-        label: 'Custom Token',
-        type: 'string',
-        required: false,
-        helpText: 'The custom token to use for the request',
-      }
+        {
+          key: 'unusedToken',
+          label: 'INTERNAL USE ONLY: FORGET THIS!',
+          type: 'string',
+          required: false,
+          helpText: 'The custom token to satisfy the search schema need for at least one search field. This is not used in the search.',
+        }
     ],
       sample: {
         "id": "123e4567-e89b-12d3-a456-426614174000",

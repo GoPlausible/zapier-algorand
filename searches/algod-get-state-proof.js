@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const algodGetStateProof = async (z, bundle) => {
     const response = await z.request(
-      "http://{{process.env.NETWORK}}-api.algonode.cloud/v2/stateproofs/{{bundle.inputData.round}}", {
+      `http://{{process.env.NETWORK}}-api.algonode.cloud/v2/stateproofs/${bundle.inputData.round}`, {
         method: "GET",
         headers: {
           'X-Algo-API-Token': '{{process.env.TOKEN}}',
@@ -15,9 +15,9 @@ const algodGetStateProof = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetStateProof",
-    noun: "Get State Proof",
+    noun: "State Proof",
     display: {
-      label: "Get State Proof",
+      label: "State Proof",
       description: "Get a state proof that covers a given round.",
     },
     operation: {
@@ -32,24 +32,14 @@ const algodGetStateProof = async (z, bundle) => {
       ],
       perform: algodGetStateProof,
       sample: {
-        "id": "123e4567-e89b-12d3-a456-426614174000",
         "Message": {
           "BlockHeadersCommitment": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-          "FirstAttestedRound": 1000000,
-          "LastAttestedRound": 1001000,
-          "LnProvenWeight": 1000,
+          "FirstAttestedRound": 12345,
+          "LastAttestedRound": 12345,
+          "LnProvenWeight": 123,
           "VotersCommitment": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
         },
-        "StateProof": {
-          "Reveals": [
-            {
-              "ParticipationAccount": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
-              "Weight": 1000
-            }
-          ],
-          "SaltVersion": 1,
-          "SignedWeight": 1000000
-        }
+        "StateProof": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
       },
     },
   };

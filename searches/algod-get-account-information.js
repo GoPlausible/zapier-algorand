@@ -18,9 +18,9 @@ const algodGetAccountInformation = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetAccountInformation",
-    noun: "Get Account Information",
+    noun: "Account",
     display: {
-      label: "Get Account Information",
+      label: "Account Information",
       description: "Given a specific account public key, this call returns the accounts status, balance and spendable amounts",
     },
     operation: {

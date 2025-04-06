@@ -15,9 +15,9 @@ const algodGetParticipationKeyById = async (z, bundle) => {
   
   module.exports = {
     key: "algodGetParticipationKeyById",
-    noun: "Get Participation Key By ID",
+    noun: "Participation Key",
     display: {
-      label: "Get Participation Key by ID",
+      label: "Participation Key by ID",
       description: "Given a participation ID, return information about that participation key.",
     },
     operation: {
