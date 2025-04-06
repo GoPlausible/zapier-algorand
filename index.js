@@ -89,5 +89,7 @@ module.exports = {
 
   creates: {},
 
-  resources: {},
+  resources: {
+    account: require('./resources/account')
+  },
 };
