@@ -87,7 +87,13 @@ module.exports = {
   },
 
 
-  creates: {},
+  creates: {
+    algodCompileTeal: require('./creates/algod-compile-teal'),
+    algodBroadcastRawTransaction: require('./creates/algod-broadcast-raw-transaction'),
+    algodDisassembleTeal: require('./creates/algod-disassemble-teal'),
+    algodDryrunTeal: require('./creates/algod-dryrun-teal'),
+    algodSimulateTransaction: require('./creates/algod-simulate-transaction')
+  },
 
   resources: {
     account: require('./resources/account'),
