@@ -2,7 +2,7 @@
 
 This integration allows you to connect Algorand blockchain with thousands of other apps through Zapier. It provides various ways to interact with the Algorand network through searches and actions.
 
-This repository is [GoPlausible](https://goplausible.com)'s remote contribution to [Algorand Developer Retreat](https://github.com/organizations/Algorand-Developer-Retreat). 
+This repository is [GoPlausible](https://goplausible.com)'s remote contribution to [Algorand Developer Retreat](https://github.com/Algorand-Developer-Retreat). 
 
 This integration is powered by [Nodely](https://nodely.io/)'s great APIs for Algorand. Shoutout and kudos to [Nodely](https://nodely.io/) for their amazing work in providing a reliable and efficient API for Algorand, we all enjoy.
 
