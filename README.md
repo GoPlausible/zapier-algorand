@@ -2,9 +2,66 @@
 
 This integration allows you to connect Algorand blockchain with thousands of other apps through Zapier. It provides various ways to interact with the Algorand network through searches and actions.
 
-This repository is GoPlausible's remote contribution to [Algorand Developer Retreat](https://github.com/organizations/Algorand-Developer-Retreat). 
+This repository is [GoPlausible](https://goplausible.com)'s remote contribution to [Algorand Developer Retreat](https://github.com/organizations/Algorand-Developer-Retreat). 
 
-This integration is powered by Nodely's great APIs for Algorand and exposes Algorand's data and functionality through Zapier's integration standard building blocks:
+This integration is powered by [Nodely](https://nodely.io/)'s great APIs for Algorand. Shoutout and kudos to [Nodely](https://nodely.io/) for their amazing work in providing a reliable and efficient API for Algorand, we all enjoy.
+
+===============================================================================
+ Language            Files        Lines         Code     Comments       Blanks
+===============================================================================
+ JavaScript             62         4589         4295           94          200
+ JSON                    4        16980        16978            0            2
+-------------------------------------------------------------------------------
+ Markdown                3         2895            0         2173          722
+ |- BASH                 2            5            5            0            0
+ |- JavaScript           1           90           88            2            0
+ |- JSON                 1           82           82            0            0
+ (Total)                           3072          175         2175          722
+===============================================================================
+ Total                  69        24464        21273         2267          924
+===============================================================================
+
+## Project Structure
+
+The repository is organized as follows:
+
+```
+zapier-algorand/
+├── creates/                 # Create operations
+│   ├── algod-broadcast-raw-transaction.js
+│   ├── algod-compile-teal.js
+│   ├── algod-disassemble-teal.js
+│   ├── algod-dryrun-teal.js
+│   └── algod-simulate-transaction.js
+├── resources/              # Resource definitions
+│   ├── account.js
+│   ├── application.js
+│   ├── asset.js
+│   ├── block.js
+│   ├── participation.js
+│   └── transaction.js
+├── schemas/               # API schemas
+│   ├── algod_api.json
+│   ├── indexer_api.json
+│   └── zapier-schema.md
+├── searches/              # Search operations
+│   ├── algod-get-*.js    # Algod node searches
+│   └── indexer-get-*.js  # Indexer node searches
+├── triggers/             # Future trigger implementations
+├── test/                # Test directory
+├── .env.example         # Environment configuration template
+├── .gitignore          # Git ignore rules
+├── definition.json     # Zapier integration definition
+├── index.js           # Main entry point
+├── LICENSE           # License file
+├── package.json     # Project metadata
+├── README.md       # Project documentation
+└── zapierwrapper.js # Zapier wrapper utilities
+```
+
+This structure ensures modularity and maintainability, with separate directories for triggers, searches, creates, and reusable resources.
+
+This intergation exposes Algorand's data and functionality through Zapier's integration standard building blocks:
 
 ### 🔍 **1. Searches**
 
