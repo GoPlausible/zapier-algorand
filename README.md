@@ -29,7 +29,7 @@ zapier-algorand/
 │   ├── algod_api.json
 │   ├── indexer_api.json
 │   └── zapier-schema.md
-├── searches/              # Search operations
+├── searches/              # Search operations (more than 50)
 │   ├── algod-get-*.js    # Algod node searches
 │   └── indexer-get-*.js  # Indexer node searches
 ├── triggers/             # Future trigger implementations
