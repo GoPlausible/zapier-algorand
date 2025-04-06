@@ -1,0 +1,3429 @@
+{
+  "version": "2.5.0",
+  "platformVersion": "16.3.1",
+  "authentication": {
+    "type": "custom",
+    "test": {
+      "url": "https://testnet-api.algonode.cloud/health",
+      "method": "GET",
+      "headers": {
+        "X-Algo-API-Token": "{{bundle.authData.token}}"
+      }
+    },
+    "connectionLabel": "{{process.env.network}}-connection-test"
+  },
+  "triggers": {
+    "accountList": {
+      "display": {
+        "label": "List Account Details",
+        "description": "Gets comprehensive information about an Algorand account including apps, assets, and transactions."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account Address",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "sample": {
+          "account": {
+            "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "amount": 1234567,
+            "amount-without-pending-rewards": 1234567,
+            "min-balance": 100000,
+            "pending-rewards": 0,
+            "rewards": 0,
+            "round": 12345,
+            "status": "Online",
+            "total-apps-opted-in": 0,
+            "total-assets-opted-in": 0,
+            "total-created-apps": 0,
+            "total-created-assets": 0
+          },
+          "appsLocalState": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "apps-local-states": [
+              {
+                "id": 0,
+                "schema": {
+                  "num-byte-slice": 0,
+                  "num-uint": 0
+                },
+                "key-value": [
+                  {
+                    "key": "key",
+                    "value": {
+                      "bytes": "value",
+                      "type": 1,
+                      "uint": 0
+                    }
+                  }
+                ],
+                "deleted": false,
+                "opted-in-at-round": 0,
+                "closed-out-at-round": 0
+              }
+            ]
+          },
+          "assets": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "assets": [
+              {
+                "asset-id": 0,
+                "amount": 0,
+                "is-frozen": false,
+                "deleted": false,
+                "opted-in-at-round": 0,
+                "opted-out-at-round": 0
+              }
+            ]
+          },
+          "createdApplications": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "applications": [
+              {
+                "id": 0,
+                "params": {
+                  "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "approval-program": "ASABASI=",
+                  "clear-state-program": "ASABASI=",
+                  "global-state-schema": {
+                    "num-uint": 0,
+                    "num-byte-slice": 0
+                  },
+                  "local-state-schema": {
+                    "num-uint": 0,
+                    "num-byte-slice": 0
+                  },
+                  "extra-program-pages": 0
+                },
+                "created-at-round": 0,
+                "deleted": false,
+                "deleted-at-round": 0
+              }
+            ]
+          },
+          "createdAssets": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "assets": [
+              {
+                "index": 0,
+                "params": {
+                  "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "decimals": 0,
+                  "default-frozen": false,
+                  "name": "string",
+                  "name-b64": "string",
+                  "total": 0,
+                  "unit-name": "string",
+                  "unit-name-b64": "string",
+                  "url": "string",
+                  "url-b64": "string",
+                  "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                },
+                "created-at-round": 0,
+                "deleted": false,
+                "destroyed-at-round": 0
+              }
+            ]
+          },
+          "pendingTransactions": {
+            "id": "123e4567-e89b-12d3-a456-426614174000",
+            "total-transactions": 1,
+            "top-transactions": [
+              {
+                "sig": "signature",
+                "txn": {
+                  "amt": 1000,
+                  "fee": 1000,
+                  "fv": 1000,
+                  "gen": "mainnet-v1.0",
+                  "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+                  "lv": 2000,
+                  "note": "note",
+                  "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                  "type": "pay"
+                }
+              }
+            ]
+          },
+          "transactions": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "transactions": [
+              {
+                "id": "transaction-id",
+                "fee": 0,
+                "first-valid": 0,
+                "last-valid": 0,
+                "sender": "sender-address",
+                "type": "pay",
+                "payment-transaction": {
+                  "amount": 0,
+                  "receiver": "receiver-address"
+                },
+                "confirmed-round": 0,
+                "round-time": 0
+              }
+            ]
+          }
+        },
+        "resource": "account",
+        "type": "polling"
+      },
+      "key": "accountList",
+      "noun": "Account"
+    }
+  },
+  "searches": {
+    "accountSearch": {
+      "display": {
+        "label": "Find Accounts",
+        "description": "Search for Algorand accounts."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by accounts holding this asset."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Balance Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Balance Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "exclude",
+            "label": "Exclude",
+            "type": "string",
+            "required": false,
+            "helpText": "Exclude additional items (comma-separated): all,assets,created-assets,apps-local-state,created-apps,none"
+          },
+          {
+            "key": "authAddr",
+            "label": "Auth Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Include accounts configured to use this spending key."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results for the specified round."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by accounts that have opted into this application."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "accounts": [
+            {
+              "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "amount": 0,
+              "amount-without-pending-rewards": 0,
+              "pending-rewards": 0,
+              "rewards": 0,
+              "round": 0,
+              "status": "Offline",
+              "total-apps-opted-in": 0,
+              "total-assets-opted-in": 0,
+              "total-box-bytes": 0,
+              "total-boxes": 0,
+              "total-created-apps": 0,
+              "total-created-assets": 0
+            }
+          ]
+        },
+        "resource": "account",
+        "performGet": "$func$2$f$"
+      },
+      "key": "accountSearch",
+      "noun": "Account"
+    },
+    "algodGetHealth": {
+      "key": "algodGetHealth",
+      "noun": "Algod Health Status",
+      "display": {
+        "label": "Algod Health Status Check Information",
+        "description": "Get Algod API and node health status. if response is OK (status 200), the node is healthy."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "status": "OK"
+        }
+      }
+    },
+    "algodGetMetrics": {
+      "key": "algodGetMetrics",
+      "noun": "Get Metrics",
+      "display": {
+        "label": "Get Metrics",
+        "description": "Return metrics about algod functioning! Not for public use. Only use with a token configured"
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "key": "algod_network_peer_count",
+          "value": "42"
+        }
+      }
+    },
+    "algodGetReady": {
+      "key": "algodGetReady",
+      "noun": "Ready Status",
+      "display": {
+        "label": "Ready Status",
+        "description": "Returns OK if healthy and fully caught up."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "status": "OK"
+        }
+      }
+    },
+    "algodGetGenesis": {
+      "key": "algodGetGenesis",
+      "noun": "Algod Genesis",
+      "display": {
+        "label": "Algod Network Genesis Information",
+        "description": "Returns the entire genesis file in json."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "status": "OK"
+        }
+      }
+    },
+    "algodGetStatus": {
+      "key": "algodGetStatus",
+      "noun": "Get Node Status",
+      "display": {
+        "label": "Get Node Status",
+        "description": "Gets the current node status."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "catchpoint": "12345#ABCDEF",
+          "catchpoint-acquired-blocks": 1000,
+          "catchpoint-processed-accounts": 5000,
+          "catchpoint-processed-kvs": 100,
+          "catchpoint-total-accounts": 10000,
+          "catchpoint-total-blocks": 2000,
+          "catchpoint-total-kvs": 200,
+          "catchpoint-verified-accounts": 4000,
+          "catchpoint-verified-kvs": 80,
+          "catchup-time": 1000000,
+          "last-catchpoint": "12344#ABCDEF",
+          "last-round": 12345,
+          "last-version": "1.0",
+          "next-version": "2.0",
+          "next-version-round": 20000,
+          "next-version-supported": true,
+          "stopped-at-unsupported-round": false,
+          "time-since-last-round": 2000000,
+          "upgrade-delay": 10000,
+          "upgrade-next-protocol-vote-before": 15000,
+          "upgrade-no-votes": 100,
+          "upgrade-node-vote": true,
+          "upgrade-vote-rounds": 1000,
+          "upgrade-votes": 500,
+          "upgrade-votes-required": 800,
+          "upgrade-yes-votes": 400
+        }
+      }
+    },
+    "algodGetStatusAfterBlock": {
+      "key": "algodGetStatusAfterBlock",
+      "noun": "Status After Block",
+      "display": {
+        "label": "Algod Status After Block",
+        "description": "Waits for a block to appear after round {round} and returns the node's status at the time."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round to wait until returning status."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "catchpoint": "12345#ABCDEF",
+          "catchpoint-acquired-blocks": 1000,
+          "catchpoint-processed-accounts": 5000,
+          "catchpoint-processed-kvs": 100,
+          "catchpoint-total-accounts": 10000,
+          "catchpoint-total-blocks": 2000,
+          "catchpoint-total-kvs": 200,
+          "catchpoint-verified-accounts": 4000,
+          "catchpoint-verified-kvs": 80,
+          "catchup-time": 1000000,
+          "last-catchpoint": "12344#ABCDEF",
+          "last-round": 12345,
+          "last-version": "1.0",
+          "next-version": "2.0",
+          "next-version-round": 20000,
+          "next-version-supported": true,
+          "stopped-at-unsupported-round": false,
+          "time-since-last-round": 2000000,
+          "upgrade-delay": 10000,
+          "upgrade-next-protocol-vote-before": 15000,
+          "upgrade-no-votes": 100,
+          "upgrade-node-vote": true,
+          "upgrade-vote-rounds": 1000,
+          "upgrade-votes": 500,
+          "upgrade-votes-required": 800,
+          "upgrade-yes-votes": 400
+        }
+      }
+    },
+    "algodGetVersion": {
+      "key": "algodGetVersion",
+      "noun": "API Version",
+      "display": {
+        "label": "API Version Information",
+        "description": "Retrieves the supported API versions, binary build versions, and genesis information."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "versions": [
+            "v1",
+            "v2"
+          ],
+          "genesis_hash_b64": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+          "genesis_id": "mainnet-v1.0",
+          "build": {
+            "major": 2,
+            "minor": 1,
+            "build_number": 5,
+            "commit_hash": "abc123def",
+            "branch": "master",
+            "channel": "stable"
+          }
+        }
+      }
+    },
+    "algodGetLedgerSupply": {
+      "key": "algodGetLedgerSupply",
+      "noun": "Supply",
+      "display": {
+        "label": "Current Supply",
+        "description": "Get the current supply reported by the ledger."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "current_round": 12345,
+          "online-money": 1234567,
+          "total-money": 1234567
+        }
+      }
+    },
+    "algodGetAccountInformation": {
+      "key": "algodGetAccountInformation",
+      "noun": "Account",
+      "display": {
+        "label": "Account Information",
+        "description": "Given a specific account public key, this call returns the accounts status, balance and spendable amounts"
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "address",
+            "label": "Account Address",
+            "type": "string",
+            "required": true,
+            "helpText": "An account public key in standard Algorand format (58 characters)"
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          },
+          {
+            "key": "exclude",
+            "label": "Exclude Fields",
+            "type": "string",
+            "choices": [
+              "all",
+              "none"
+            ],
+            "required": false,
+            "default": "none",
+            "helpText": "When set to \"all\" will exclude asset holdings, application local state, created asset parameters, any created application parameters. Defaults to \"none\"."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "amount": 1234567,
+          "amount-without-pending-rewards": 1234567,
+          "min-balance": 100000,
+          "pending-rewards": 0,
+          "rewards": 0,
+          "round": 12345,
+          "status": "Online",
+          "total-apps-opted-in": 0,
+          "total-assets-opted-in": 0,
+          "total-created-apps": 0,
+          "total-created-assets": 0
+        }
+      }
+    },
+    "algodGetAccountApplicationInformation": {
+      "key": "algodGetAccountApplicationInformation",
+      "noun": "Application Account LocalState",
+      "display": {
+        "label": "Application Account LocalState Information",
+        "description": "Given a specific account public key and application ID, this call returns the account's application local state and global state (AppLocalState and AppParams, if either exists). Global state will only be returned if the provided address is the application's creator."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "address",
+            "label": "Account Address",
+            "type": "string",
+            "required": true,
+            "helpText": "An account public key in standard Algorand format (58 characters)"
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application identifier"
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "round": 12345,
+          "app-local-state": {
+            "id": 1234,
+            "schema": {
+              "num-uint": 0,
+              "num-byte-slice": 0
+            }
+          },
+          "created-app": {
+            "approval-program": "AQEAAA==",
+            "clear-state-program": "AQEAAA==",
+            "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "global-state-schema": {
+              "num-uint": 0,
+              "num-byte-slice": 0
+            },
+            "local-state-schema": {
+              "num-uint": 0,
+              "num-byte-slice": 0
+            }
+          }
+        }
+      }
+    },
+    "algodGetAccountAssetInformation": {
+      "key": "algodGetAccountAssetInformation",
+      "noun": "Account Asset",
+      "display": {
+        "label": "Account Asset Information",
+        "description": "Given a specific account public key and asset ID, this call returns the account's asset holding and asset parameters (if either exist). Asset parameters will only be returned if the provided address is the asset's creator."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "address",
+            "label": "Account Address",
+            "type": "string",
+            "required": true,
+            "helpText": "An account public key in standard Algorand format (58 characters)"
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The asset identifier"
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "round": 12345,
+          "asset-holding": {
+            "amount": 1000000,
+            "asset-id": 12345,
+            "is-frozen": false
+          },
+          "created-asset": {
+            "index": 12345,
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "decimals": 0,
+              "total": 1000000,
+              "defaultFrozen": false,
+              "unitName": "UNIT",
+              "assetName": "Test Asset"
+            }
+          }
+        }
+      }
+    },
+    "algodGetAccountPendingTransactions": {
+      "key": "algodGetAccountPendingTransactions",
+      "noun": "Account Pending Transactions",
+      "display": {
+        "label": "Account Pending Transactions",
+        "description": "Get the list of pending transactions by address, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "address",
+            "label": "Account Address",
+            "type": "string",
+            "required": true,
+            "helpText": "An account public key in standard Algorand format (58 characters)"
+          },
+          {
+            "key": "max",
+            "label": "Maximum Transactions",
+            "type": "integer",
+            "default": "0",
+            "required": true,
+            "helpText": "Truncated number of transactions to display. If max=0, returns all pending transactions."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "total-transactions": 1,
+          "top-transactions": [
+            {
+              "sig": "signature",
+              "txn": {
+                "amt": 1000,
+                "fee": 1000,
+                "fv": 1000,
+                "gen": "mainnet-v1.0",
+                "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+                "lv": 2000,
+                "note": "note",
+                "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "type": "pay"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "algodGetApplication": {
+      "key": "algodGetApplication",
+      "noun": "Application",
+      "display": {
+        "label": "Application Information",
+        "description": "Given an application ID, it returns application information including creator, approval and clear programs, global and local schemas, and global state."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application identifier"
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "params": {
+            "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "approval-program": "AQEAAA==",
+            "clear-state-program": "AQEAAA==",
+            "local-state-schema": {
+              "num-uint": 0,
+              "num-byte-slice": 0
+            },
+            "global-state-schema": {
+              "num-uint": 0,
+              "num-byte-slice": 0
+            }
+          }
+        }
+      }
+    },
+    "algodGetApplicationBox": {
+      "key": "algodGetApplicationBox",
+      "noun": "Application Box",
+      "display": {
+        "label": "Application Box Value",
+        "description": "Given an application ID and box name, it returns the round, box name, and value (each base64 encoded). Box names must be in the goal app call arg encoding form 'encoding:value'. For ints, use the form 'int:1234'. For raw bytes, use the form 'b64:A=='. For printable strings, use the form 'str:hello'. For addresses, use the form 'addr:XYZ...'."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application identifier"
+          },
+          {
+            "key": "name",
+            "label": "Box Name",
+            "type": "string",
+            "required": true,
+            "helpText": "A box name, in the goal app call arg form 'encoding:value'. For ints, use the form 'int:1234'. For raw bytes, use the form 'b64:A=='. For printable strings, use the form 'str:hello'. For addresses, use the form 'addr:XYZ...'."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "name": "Ym94MQ==",
+          "round": 12345,
+          "value": "AQIDBA=="
+        }
+      }
+    },
+    "algodGetApplicationBoxes": {
+      "key": "algodGetApplicationBoxes",
+      "noun": "Application Boxes",
+      "display": {
+        "label": "Application Boxes List",
+        "description": "Given an application ID, return all Box names. No particular ordering is guaranteed. Request fails when client or server-side configured limits prevent returning all Box names."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application identifier"
+          },
+          {
+            "key": "max",
+            "label": "Maximum Boxes",
+            "type": "integer",
+            "default": "0",
+            "required": true,
+            "helpText": "Max number of box names to return. If max is not set, or max == 0, returns all box-names."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "boxes": [
+            {
+              "name": "Ym94MQ=="
+            },
+            {
+              "name": "Ym94Mg=="
+            }
+          ]
+        }
+      }
+    },
+    "algodGetAsset": {
+      "key": "algodGetAsset",
+      "noun": "Asset",
+      "display": {
+        "label": "Asset Information",
+        "description": "Given an asset ID, it returns asset information including creator, name, total supply and special addresses."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The asset identifier"
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "index": 12345,
+          "params": {
+            "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "decimals": 0,
+            "total": 1000000,
+            "defaultFrozen": false,
+            "unitName": "UNIT",
+            "assetName": "Test Asset",
+            "url": "https://example.com",
+            "manager": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "reserve": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "freeze": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "clawback": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+          }
+        }
+      }
+    },
+    "algodGetBlock": {
+      "key": "algodGetBlock",
+      "noun": "Block",
+      "display": {
+        "label": "Block Information",
+        "description": "Get the block for the given round."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round from which to fetch block information."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "block": {
+            "gen": "mainnet-v1.0",
+            "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+            "prev": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "rnd": 12345,
+            "seed": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+            "ts": 1234567890,
+            "txn": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          }
+        }
+      }
+    },
+    "algodGetBlockHash": {
+      "key": "algodGetBlockHash",
+      "noun": "Block Hash",
+      "display": {
+        "label": "Block Hash",
+        "description": "Get the block hash for the block on the given round."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round from which to fetch block hash information."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "blockHash": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8="
+        }
+      }
+    },
+    "algodGetLightBlockHeaderProof": {
+      "key": "algodGetLightBlockHeaderProof",
+      "noun": "Light Block Header Proof",
+      "display": {
+        "label": "Light Block Header Proof",
+        "description": "Gets a proof for a given light block header inside a state proof commitment."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round to which the light block header belongs."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "index": 1234,
+          "proof": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "treedepth": 10
+        }
+      }
+    },
+    "algodGetLedgerStateDelta": {
+      "key": "algodGetLedgerStateDelta",
+      "noun": "Ledger State Delta",
+      "display": {
+        "label": "Ledger State Delta",
+        "description": "Get ledger deltas for a round."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round for which the deltas are desired."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "accts": {
+            "accounts": [
+              {
+                "addr": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                "data": {
+                  "algo": "1234567",
+                  "onl": 1,
+                  "sel": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+                }
+              }
+            ]
+          },
+          "kvmod": [
+            {
+              "key": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "value": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+            }
+          ]
+        }
+      }
+    },
+    "algodGetLedgerStateDeltaForTransactionGroup": {
+      "key": "algodGetLedgerStateDeltaForTransactionGroup",
+      "noun": "Transaction Group State Delta",
+      "display": {
+        "label": "Transaction Group State Delta Information",
+        "description": "Get a ledger delta for a given transaction group."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "id",
+            "label": "Transaction/Group ID",
+            "type": "string",
+            "required": true,
+            "helpText": "A transaction ID, or transaction group ID"
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "accts": {
+            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ": {
+              "algo": {
+                "at": 12345,
+                "dc": 1000
+              }
+            }
+          },
+          "txns": {
+            "tx1": {
+              "caid": 1234,
+              "ca": {
+                "at": 5000,
+                "dc": 1000
+              }
+            }
+          }
+        }
+      }
+    },
+    "algodGetTransactionGroupLedgerStateDeltasForRound": {
+      "key": "algodGetTransactionGroupLedgerStateDeltasForRound",
+      "noun": "Transaction Group Ledger State Deltas For Round",
+      "display": {
+        "label": "Transaction Group Ledger State Deltas For Round",
+        "description": "Get ledger deltas for transaction groups in a given round."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round for which the deltas are desired."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "Deltas": [
+            {
+              "txid": "ABCDEF1234567890",
+              "delta": {
+                "accts": {
+                  "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ": {
+                    "algo": {
+                      "at": 12345,
+                      "dc": 1000
+                    }
+                  }
+                },
+                "txns": {
+                  "tx1": {
+                    "caid": 1234,
+                    "ca": {
+                      "at": 5000,
+                      "dc": 1000
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "algodGetTransactionProof": {
+      "key": "algodGetTransactionProof",
+      "noun": "Transaction Proof",
+      "display": {
+        "label": "Get Transaction Proof",
+        "description": "Get a proof for a transaction in a block."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round in which the transaction appears."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The transaction ID for which to generate a proof."
+          },
+          {
+            "key": "hashtype",
+            "label": "Hash Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sha512_256",
+              "sha256"
+            ],
+            "helpText": "The type of hash function used to create the proof."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "hashtype": "sha512_256",
+          "idx": 1,
+          "proof": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "stibhash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "treedepth": 10
+        }
+      }
+    },
+    "algodGetStateProof": {
+      "key": "algodGetStateProof",
+      "noun": "State Proof",
+      "display": {
+        "label": "State Proof",
+        "description": "Get a state proof that covers a given round."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round for which a state proof is desired."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "Message": {
+            "BlockHeadersCommitment": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+            "FirstAttestedRound": 12345,
+            "LastAttestedRound": 12345,
+            "LnProvenWeight": 123,
+            "VotersCommitment": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+          },
+          "StateProof": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+        }
+      }
+    },
+    "algodGetParticipationKeys": {
+      "key": "algodGetParticipationKeys",
+      "noun": "Participation Keys",
+      "display": {
+        "label": "Participation Keys List",
+        "description": "Return a list of participation keys."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "effectiveFirstValid": 0,
+          "effectiveLastValid": 100000,
+          "firstValid": 0,
+          "lastValid": 100000,
+          "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "voteFirstValid": 0,
+          "voteLastValid": 100000,
+          "voteKeyDilution": 10000,
+          "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+        }
+      }
+    },
+    "algodGetParticipationKeyById": {
+      "key": "algodGetParticipationKeyById",
+      "noun": "Participation Key",
+      "display": {
+        "label": "Participation Key by ID",
+        "description": "Given a participation ID, return information about that participation key."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "participationId",
+            "label": "Participation ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The participation ID to get information about."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "effectiveFirstValid": 0,
+          "effectiveLastValid": 100000,
+          "firstValid": 0,
+          "lastValid": 100000,
+          "voteID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "selectionID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+          "voteFirstValid": 0,
+          "voteLastValid": 100000,
+          "voteKeyDilution": 10000,
+          "parent": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+          "stateProofID": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+        }
+      }
+    },
+    "algodGetTransactionParams": {
+      "key": "algodGetTransactionParams",
+      "noun": "Transaction Parameters",
+      "display": {
+        "label": "Transaction Parameters",
+        "description": "Get parameters for constructing a new transaction."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "consensus-version": "https://github.com/algorandfoundation/specs/tree/d5ac876d7ede07367dbaa26e149aa42589aac1f7",
+          "fee": 1000,
+          "genesis-hash": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+          "genesis-id": "mainnet-v1.0",
+          "last-round": 12345,
+          "min-fee": 1000
+        }
+      }
+    },
+    "algodGetPendingTransactions": {
+      "key": "algodGetPendingTransactions",
+      "noun": "Pending Transactions",
+      "display": {
+        "label": "Pending Transactions",
+        "description": "Get the list of pending transactions, sorted by priority, in decreasing order, truncated at the end at MAX. If MAX = 0, returns all pending transactions."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "max",
+            "label": "Maximum Transactions",
+            "type": "integer",
+            "default": "0",
+            "required": false,
+            "helpText": "Truncated number of transactions to display. If max=0, returns all pending transactions."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "total-transactions": 2,
+          "top-transactions": [
+            {
+              "sig": "signature1",
+              "txn": {
+                "amt": 1000,
+                "fee": 1000,
+                "fv": 1000,
+                "gen": "mainnet-v1.0",
+                "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+                "lv": 2000,
+                "note": "note1",
+                "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "type": "pay"
+              }
+            },
+            {
+              "sig": "signature2",
+              "txn": {
+                "amt": 2000,
+                "fee": 1000,
+                "fv": 1000,
+                "gen": "mainnet-v1.0",
+                "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+                "lv": 2000,
+                "note": "note2",
+                "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "type": "pay"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "algodGetPendingTransactionInformation": {
+      "key": "algodGetPendingTransactionInformation",
+      "noun": "Pending Transaction",
+      "display": {
+        "label": "Pending Transaction Information",
+        "description": "Given a transaction ID of a recently submitted transaction, it returns information about it. Shows if transaction is committed, still in pool, or removed from pool due to error."
+      },
+      "operation": {
+        "inputFields": [
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": true,
+            "helpText": "A transaction ID."
+          },
+          {
+            "key": "format",
+            "label": "Response Format",
+            "type": "string",
+            "choices": [
+              "json",
+              "msgpack"
+            ],
+            "required": false,
+            "default": "json",
+            "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+          }
+        ],
+        "perform": "$func$2$f$",
+        "sample": {
+          "id": "123e4567-e89b-12d3-a456-426614174000",
+          "application-index": 1234,
+          "asset-index": 5678,
+          "close-rewards": 100,
+          "confirmed-round": 12345,
+          "global-state-delta": [
+            {
+              "key": "key1",
+              "value": {
+                "action": 1,
+                "bytes": "val1",
+                "uint": 1000
+              }
+            }
+          ],
+          "local-state-delta": [
+            {
+              "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "delta": [
+                {
+                  "key": "key1",
+                  "value": {
+                    "action": 1,
+                    "bytes": "val1",
+                    "uint": 1000
+                  }
+                }
+              ]
+            }
+          ],
+          "pool-error": "",
+          "receiver-rewards": 200,
+          "sender-rewards": 300,
+          "txn": {
+            "sig": "signature",
+            "txn": {
+              "amt": 1000,
+              "fee": 1000,
+              "fv": 1000,
+              "gen": "mainnet-v1.0",
+              "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+              "lv": 2000,
+              "note": "note",
+              "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "type": "pay"
+            }
+          }
+        }
+      }
+    },
+    "indexerGetHealth": {
+      "key": "indexerGetHealth",
+      "noun": "Indexer Health Status",
+      "display": {
+        "label": "Indexer Health Status Check",
+        "description": "Returns 200 if healthy. Gets Indexer API and node health status."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "unusedToken",
+            "label": "INTERNAL USE ONLY: FORGET THIS!",
+            "type": "string",
+            "required": false,
+            "helpText": "The custom token to satisfy the search schema need for at least one search field. This is not used in the search."
+          }
+        ],
+        "sample": {
+          "data": {},
+          "db-available": true,
+          "errors": [],
+          "is-migrating": false,
+          "message": "healthy",
+          "round": 0,
+          "version": "2.15.0"
+        }
+      }
+    },
+    "indexerGetAccounts": {
+      "key": "indexerGetAccounts",
+      "noun": "Accounts",
+      "display": {
+        "label": "Search Accounts",
+        "description": "Search for accounts based on various criteria."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by accounts holding this asset."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Balance Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Balance Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "exclude",
+            "label": "Exclude",
+            "type": "string",
+            "required": false,
+            "helpText": "Exclude additional items (comma-separated): all,assets,created-assets,apps-local-state,created-apps,none"
+          },
+          {
+            "key": "authAddr",
+            "label": "Auth Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Include accounts configured to use this spending key."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results for the specified round."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by accounts that have opted into this application."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "accounts": [
+            {
+              "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "amount": 0,
+              "amount-without-pending-rewards": 0,
+              "pending-rewards": 0,
+              "rewards": 0,
+              "round": 0,
+              "status": "Offline",
+              "total-apps-opted-in": 0,
+              "total-assets-opted-in": 0,
+              "total-box-bytes": 0,
+              "total-boxes": 0,
+              "total-created-apps": 0,
+              "total-created-assets": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAccountById": {
+      "key": "indexerGetAccountById",
+      "noun": "Account",
+      "display": {
+        "label": "Get Account Information",
+        "description": "Lookup account information by account ID."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The account address to look up."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results for the specified round."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "exclude",
+            "label": "Exclude",
+            "type": "string",
+            "required": false,
+            "helpText": "Exclude additional items (comma-separated): all,assets,created-assets,apps-local-state,created-apps,none"
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "account": {
+            "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+            "amount": 0,
+            "amount-without-pending-rewards": 0,
+            "pending-rewards": 0,
+            "rewards": 0,
+            "round": 0,
+            "status": "Offline",
+            "total-apps-opted-in": 0,
+            "total-assets-opted-in": 0,
+            "total-box-bytes": 0,
+            "total-boxes": 0,
+            "total-created-apps": 0,
+            "total-created-assets": 0
+          }
+        }
+      }
+    },
+    "indexerGetAccountAppsLocalState": {
+      "key": "indexerGetAccountAppsLocalState",
+      "noun": "Account Apps Local State",
+      "display": {
+        "label": "Get Account Application Local States",
+        "description": "Lookup an account's application local states, optionally filtered by application ID."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The account address to look up application states for."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter results for specific application ID."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "apps-local-states": [
+            {
+              "id": 0,
+              "schema": {
+                "num-byte-slice": 0,
+                "num-uint": 0
+              },
+              "key-value": [
+                {
+                  "key": "key",
+                  "value": {
+                    "bytes": "value",
+                    "type": 1,
+                    "uint": 0
+                  }
+                }
+              ],
+              "deleted": false,
+              "opted-in-at-round": 0,
+              "closed-out-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAccountAssets": {
+      "key": "indexerGetAccountAssets",
+      "noun": "Account Assets",
+      "display": {
+        "label": "Get Account Asset Holdings",
+        "description": "Lookup an account's asset holdings, optionally filtered by asset ID."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The account address to look up asset holdings for."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter results for specific asset ID."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "assets": [
+            {
+              "asset-id": 0,
+              "amount": 0,
+              "is-frozen": false,
+              "deleted": false,
+              "opted-in-at-round": 0,
+              "opted-out-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAccountCreatedApplications": {
+      "key": "indexerGetAccountCreatedApplications",
+      "noun": "Created Applications",
+      "display": {
+        "label": "Get Account Created Applications",
+        "description": "Lookup applications created by a specific account."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The account address to look up created applications for."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter results for specific application ID."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "applications": [
+            {
+              "id": 0,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "approval-program": "ASABASI=",
+                "clear-state-program": "ASABASI=",
+                "global-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "local-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "extra-program-pages": 0
+              },
+              "created-at-round": 0,
+              "deleted": false,
+              "deleted-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAccountCreatedAssets": {
+      "key": "indexerGetAccountCreatedAssets",
+      "noun": "Created Assets",
+      "display": {
+        "label": "Get Account Created Assets",
+        "description": "Lookup assets created by a specific account."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The account address to look up created assets for."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter results for specific asset ID."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "assets": [
+            {
+              "index": 0,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "decimals": 0,
+                "default-frozen": false,
+                "name": "string",
+                "name-b64": "string",
+                "total": 0,
+                "unit-name": "string",
+                "unit-name-b64": "string",
+                "url": "string",
+                "url-b64": "string",
+                "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              },
+              "created-at-round": 0,
+              "deleted": false,
+              "destroyed-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAccountTransactions": {
+      "key": "indexerGetAccountTransactions",
+      "noun": "Account Transactions",
+      "display": {
+        "label": "Get Account Transactions",
+        "description": "Lookup transactions for an account. Transactions are returned newest to oldest."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "accountId",
+            "label": "Account ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The account address to look up transactions for."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field (base64 encoded)."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by specific round."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "rekeyTo",
+            "label": "Rekey To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include results which include the rekey-to field."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetApplications": {
+      "key": "indexerGetApplications",
+      "noun": "Applications",
+      "display": {
+        "label": "Search Applications",
+        "description": "Search for applications with various filters."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "creator",
+            "label": "Creator Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by the address that created the application."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "applications": [
+            {
+              "id": 0,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "approval-program": "ASABASI=",
+                "clear-state-program": "ASABASI=",
+                "global-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "local-state-schema": {
+                  "num-uint": 0,
+                  "num-byte-slice": 0
+                },
+                "extra-program-pages": 0
+              },
+              "created-at-round": 0,
+              "deleted": false,
+              "deleted-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetApplicationById": {
+      "key": "indexerGetApplicationById",
+      "noun": "Application",
+      "display": {
+        "label": "Get Application Information",
+        "description": "Lookup application information by application ID."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application ID to look up."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "application": {
+            "id": 0,
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "approval-program": "ASABASI=",
+              "clear-state-program": "ASABASI=",
+              "global-state-schema": {
+                "num-uint": 0,
+                "num-byte-slice": 0
+              },
+              "local-state-schema": {
+                "num-uint": 0,
+                "num-byte-slice": 0
+              },
+              "extra-program-pages": 0
+            },
+            "created-at-round": 0,
+            "deleted": false,
+            "deleted-at-round": 0
+          }
+        }
+      }
+    },
+    "indexerGetApplicationBoxByIdAndName": {
+      "key": "indexerGetApplicationBoxByIdAndName",
+      "noun": "Application Box",
+      "display": {
+        "label": "Get Application Box",
+        "description": "Get box information for a given application and box name."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application ID to look up box information for."
+          },
+          {
+            "key": "boxName",
+            "label": "Box Name",
+            "type": "string",
+            "required": true,
+            "helpText": "A box name in goal-arg form 'encoding:value'. For ints, use 'int:1234'. For raw bytes, use 'b64:A=='. For strings, use 'str:hello'. For addresses, use 'addr:XYZ...'."
+          }
+        ],
+        "sample": {
+          "name": "AAAA",
+          "value": "AAAA"
+        }
+      }
+    },
+    "indexerGetApplicationBoxes": {
+      "key": "indexerGetApplicationBoxes",
+      "noun": "Application Boxes",
+      "display": {
+        "label": "Get Application Boxes",
+        "description": "Get all box names for a given application."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application ID to look up boxes for."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "application-id": 0,
+          "boxes": [
+            {
+              "name": "AAAA"
+            }
+          ],
+          "next-token": "next-token"
+        }
+      }
+    },
+    "indexerGetApplicationLogs": {
+      "key": "indexerGetApplicationLogs",
+      "noun": "Application Logs",
+      "display": {
+        "label": "Get Application Logs",
+        "description": "Get log messages for a given application."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The application ID to look up logs for."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "senderAddress",
+            "label": "Sender Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by sender address."
+          }
+        ],
+        "sample": {
+          "application-id": 0,
+          "current-round": 0,
+          "next-token": "next-token",
+          "log-data": [
+            {
+              "txid": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "sender": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "round": 0,
+              "timestamp": 0,
+              "logs": [
+                "AAAA"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAssets": {
+      "key": "indexerGetAssets",
+      "noun": "Assets",
+      "display": {
+        "label": "Search Assets",
+        "description": "Search for assets with various filters."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "creator",
+            "label": "Creator Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by the address that created the asset."
+          },
+          {
+            "key": "name",
+            "label": "Asset Name",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by asset name."
+          },
+          {
+            "key": "unit",
+            "label": "Unit Name",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by unit name."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "assets": [
+            {
+              "index": 0,
+              "params": {
+                "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "decimals": 0,
+                "default-frozen": false,
+                "name": "string",
+                "name-b64": "string",
+                "total": 0,
+                "unit-name": "string",
+                "unit-name-b64": "string",
+                "url": "string",
+                "url-b64": "string",
+                "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+              },
+              "created-at-round": 0,
+              "deleted": false,
+              "destroyed-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAssetById": {
+      "key": "indexerGetAssetById",
+      "noun": "Asset",
+      "display": {
+        "label": "Get Asset Information",
+        "description": "Lookup asset information by asset ID."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The asset ID to look up."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "asset": {
+            "index": 0,
+            "params": {
+              "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "decimals": 0,
+              "default-frozen": false,
+              "name": "string",
+              "name-b64": "string",
+              "total": 0,
+              "unit-name": "string",
+              "unit-name-b64": "string",
+              "url": "string",
+              "url-b64": "string",
+              "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            },
+            "created-at-round": 0,
+            "deleted": false,
+            "destroyed-at-round": 0
+          }
+        }
+      }
+    },
+    "indexerGetAssetBalances": {
+      "key": "indexerGetAssetBalances",
+      "noun": "Asset Balances",
+      "display": {
+        "label": "Get Asset Balances",
+        "description": "Get accounts that hold a specific asset."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The asset ID to look up balances for."
+          },
+          {
+            "key": "includeAll",
+            "label": "Include All",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include all items including closed accounts, deleted applications, etc."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Balance Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Balance Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "balances": [
+            {
+              "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "amount": 0,
+              "is-frozen": false,
+              "deleted": false,
+              "opted-in-at-round": 0,
+              "opted-out-at-round": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetAssetTransactions": {
+      "key": "indexerGetAssetTransactions",
+      "noun": "Asset Transactions",
+      "display": {
+        "label": "Get Asset Transactions",
+        "description": "Get transactions involving a specific asset."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": true,
+            "helpText": "The asset ID to look up transactions for."
+          },
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by specific round."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "address",
+            "label": "Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by account address."
+          },
+          {
+            "key": "addressRole",
+            "label": "Address Role",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sender",
+              "receiver"
+            ],
+            "helpText": "Filter by the role of the address."
+          },
+          {
+            "key": "excludeCloseTo",
+            "label": "Exclude Close To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Whether to exclude transactions with close-to fields."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetBlock": {
+      "key": "indexerGetBlock",
+      "noun": "Block",
+      "display": {
+        "label": "Get Block Information",
+        "description": "Get information about a specific block."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "roundNumber",
+            "label": "Round Number",
+            "type": "integer",
+            "required": true,
+            "helpText": "The round number of the block to look up."
+          }
+        ],
+        "sample": {
+          "block": {
+            "genesis-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "genesis-id": "mainnet-v1.0",
+            "previous-block-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "rewards": {
+              "fee-sink": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "rewards-calculation-round": 0,
+              "rewards-level": 0,
+              "rewards-pool": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+              "rewards-rate": 0,
+              "rewards-residue": 0
+            },
+            "round": 0,
+            "seed": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "timestamp": 0,
+            "transactions": [],
+            "transactions-root": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "txn-counter": 0,
+            "upgrade-state": {
+              "current-protocol": "future",
+              "next-protocol": "future",
+              "next-protocol-approvals": 0,
+              "next-protocol-switch-on": 0,
+              "next-protocol-vote-before": 0
+            },
+            "upgrade-vote": {
+              "upgrade-approve": false,
+              "upgrade-delay": 0,
+              "upgrade-propose": "future"
+            }
+          },
+          "current-round": 0
+        }
+      }
+    },
+    "indexerGetTransactions": {
+      "key": "indexerGetTransactions",
+      "noun": "Transactions",
+      "display": {
+        "label": "Search Transactions",
+        "description": "Search for transactions with various filters."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "limit",
+            "label": "Limit",
+            "type": "integer",
+            "required": false,
+            "helpText": "Maximum number of results to return."
+          },
+          {
+            "key": "next",
+            "label": "Next Page Token",
+            "type": "string",
+            "required": false,
+            "helpText": "Token for requesting the next page of results."
+          },
+          {
+            "key": "notePrefix",
+            "label": "Note Prefix",
+            "type": "string",
+            "required": false,
+            "helpText": "Specifies a prefix which must be contained in the note field."
+          },
+          {
+            "key": "txType",
+            "label": "Transaction Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "pay",
+              "keyreg",
+              "acfg",
+              "axfer",
+              "afrz",
+              "appl",
+              "stpf"
+            ],
+            "helpText": "Filter by transaction type."
+          },
+          {
+            "key": "sigType",
+            "label": "Signature Type",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sig",
+              "msig",
+              "lsig"
+            ],
+            "helpText": "Filter by signature type."
+          },
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by transaction ID."
+          },
+          {
+            "key": "round",
+            "label": "Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by specific round."
+          },
+          {
+            "key": "minRound",
+            "label": "Minimum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or after the specified round."
+          },
+          {
+            "key": "maxRound",
+            "label": "Maximum Round",
+            "type": "integer",
+            "required": false,
+            "helpText": "Include results at or before the specified round."
+          },
+          {
+            "key": "assetId",
+            "label": "Asset ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by asset ID."
+          },
+          {
+            "key": "beforeTime",
+            "label": "Before Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results before this time (RFC 3339 format)."
+          },
+          {
+            "key": "afterTime",
+            "label": "After Time",
+            "type": "string",
+            "required": false,
+            "helpText": "Include results after this time (RFC 3339 format)."
+          },
+          {
+            "key": "currencyGreaterThan",
+            "label": "Amount Greater Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount greater than this value."
+          },
+          {
+            "key": "currencyLessThan",
+            "label": "Amount Less Than",
+            "type": "integer",
+            "required": false,
+            "helpText": "Results should have an amount less than this value."
+          },
+          {
+            "key": "address",
+            "label": "Address",
+            "type": "string",
+            "required": false,
+            "helpText": "Filter by account address."
+          },
+          {
+            "key": "addressRole",
+            "label": "Address Role",
+            "type": "string",
+            "required": false,
+            "choices": [
+              "sender",
+              "receiver"
+            ],
+            "helpText": "Filter by the role of the address."
+          },
+          {
+            "key": "excludeCloseTo",
+            "label": "Exclude Close To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Whether to exclude transactions with close-to fields."
+          },
+          {
+            "key": "applicationId",
+            "label": "Application ID",
+            "type": "integer",
+            "required": false,
+            "helpText": "Filter by application ID."
+          },
+          {
+            "key": "rekeyTo",
+            "label": "Rekey To",
+            "type": "boolean",
+            "required": false,
+            "helpText": "Include results which include the rekey-to field."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "next-token": "next-token",
+          "transactions": [
+            {
+              "id": "transaction-id",
+              "fee": 0,
+              "first-valid": 0,
+              "last-valid": 0,
+              "sender": "sender-address",
+              "type": "pay",
+              "payment-transaction": {
+                "amount": 0,
+                "receiver": "receiver-address"
+              },
+              "confirmed-round": 0,
+              "round-time": 0
+            }
+          ]
+        }
+      }
+    },
+    "indexerGetTransactionById": {
+      "key": "indexerGetTransactionById",
+      "noun": "Transaction",
+      "display": {
+        "label": "Get Transaction Information",
+        "description": "Get information about a specific transaction."
+      },
+      "operation": {
+        "perform": "$func$2$f$",
+        "inputFields": [
+          {
+            "key": "txid",
+            "label": "Transaction ID",
+            "type": "string",
+            "required": true,
+            "helpText": "The transaction ID to look up."
+          }
+        ],
+        "sample": {
+          "current-round": 0,
+          "transaction": {
+            "id": "transaction-id",
+            "fee": 0,
+            "first-valid": 0,
+            "last-valid": 0,
+            "sender": "sender-address",
+            "type": "pay",
+            "payment-transaction": {
+              "amount": 0,
+              "receiver": "receiver-address"
+            },
+            "confirmed-round": 0,
+            "round-time": 0
+          }
+        }
+      }
+    }
+  },
+  "creates": {},
+  "resources": {
+    "account": {
+      "key": "account",
+      "noun": "Account",
+      "get": {
+        "display": {
+          "label": "Get Account",
+          "description": "Gets information about a specific Algorand account."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "address",
+              "label": "Account Address",
+              "type": "string",
+              "required": true,
+              "helpText": "An account public key in standard Algorand format (58 characters)"
+            },
+            {
+              "key": "format",
+              "label": "Response Format",
+              "type": "string",
+              "choices": [
+                "json",
+                "msgpack"
+              ],
+              "required": false,
+              "default": "json",
+              "helpText": "Configures whether the response object is JSON or MessagePack encoded. Defaults to JSON."
+            },
+            {
+              "key": "exclude",
+              "label": "Exclude Fields",
+              "type": "string",
+              "choices": [
+                "all",
+                "none"
+              ],
+              "required": false,
+              "default": "none",
+              "helpText": "When set to \"all\" will exclude asset holdings, application local state, created asset parameters, any created application parameters. Defaults to \"none\"."
+            }
+          ],
+          "sample": {
+            "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "amount": 1234567,
+            "amount-without-pending-rewards": 1234567,
+            "min-balance": 100000,
+            "pending-rewards": 0,
+            "rewards": 0,
+            "round": 12345,
+            "status": "Online",
+            "total-apps-opted-in": 0,
+            "total-assets-opted-in": 0,
+            "total-created-apps": 0,
+            "total-created-assets": 0
+          }
+        }
+      },
+      "search": {
+        "display": {
+          "label": "Find Accounts",
+          "description": "Search for Algorand accounts."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "assetId",
+              "label": "Asset ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by accounts holding this asset."
+            },
+            {
+              "key": "limit",
+              "label": "Limit",
+              "type": "integer",
+              "required": false,
+              "helpText": "Maximum number of results to return."
+            },
+            {
+              "key": "next",
+              "label": "Next Page Token",
+              "type": "string",
+              "required": false,
+              "helpText": "Token for requesting the next page of results."
+            },
+            {
+              "key": "currencyGreaterThan",
+              "label": "Balance Greater Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount greater than this value."
+            },
+            {
+              "key": "currencyLessThan",
+              "label": "Balance Less Than",
+              "type": "integer",
+              "required": false,
+              "helpText": "Results should have an amount less than this value."
+            },
+            {
+              "key": "includeAll",
+              "label": "Include All",
+              "type": "boolean",
+              "required": false,
+              "helpText": "Include all items including closed accounts, deleted applications, etc."
+            },
+            {
+              "key": "exclude",
+              "label": "Exclude",
+              "type": "string",
+              "required": false,
+              "helpText": "Exclude additional items (comma-separated): all,assets,created-assets,apps-local-state,created-apps,none"
+            },
+            {
+              "key": "authAddr",
+              "label": "Auth Address",
+              "type": "string",
+              "required": false,
+              "helpText": "Include accounts configured to use this spending key."
+            },
+            {
+              "key": "round",
+              "label": "Round",
+              "type": "integer",
+              "required": false,
+              "helpText": "Include results for the specified round."
+            },
+            {
+              "key": "applicationId",
+              "label": "Application ID",
+              "type": "integer",
+              "required": false,
+              "helpText": "Filter by accounts that have opted into this application."
+            }
+          ],
+          "sample": {
+            "current-round": 0,
+            "next-token": "next-token",
+            "accounts": [
+              {
+                "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                "amount": 0,
+                "amount-without-pending-rewards": 0,
+                "pending-rewards": 0,
+                "rewards": 0,
+                "round": 0,
+                "status": "Offline",
+                "total-apps-opted-in": 0,
+                "total-assets-opted-in": 0,
+                "total-box-bytes": 0,
+                "total-boxes": 0,
+                "total-created-apps": 0,
+                "total-created-assets": 0
+              }
+            ]
+          }
+        }
+      },
+      "list": {
+        "display": {
+          "label": "List Account Details",
+          "description": "Gets comprehensive information about an Algorand account including apps, assets, and transactions."
+        },
+        "operation": {
+          "perform": "$func$2$f$",
+          "inputFields": [
+            {
+              "key": "accountId",
+              "label": "Account Address",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "sample": {
+            "account": {
+              "address": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "amount": 1234567,
+              "amount-without-pending-rewards": 1234567,
+              "min-balance": 100000,
+              "pending-rewards": 0,
+              "rewards": 0,
+              "round": 12345,
+              "status": "Online",
+              "total-apps-opted-in": 0,
+              "total-assets-opted-in": 0,
+              "total-created-apps": 0,
+              "total-created-assets": 0
+            },
+            "appsLocalState": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "apps-local-states": [
+                {
+                  "id": 0,
+                  "schema": {
+                    "num-byte-slice": 0,
+                    "num-uint": 0
+                  },
+                  "key-value": [
+                    {
+                      "key": "key",
+                      "value": {
+                        "bytes": "value",
+                        "type": 1,
+                        "uint": 0
+                      }
+                    }
+                  ],
+                  "deleted": false,
+                  "opted-in-at-round": 0,
+                  "closed-out-at-round": 0
+                }
+              ]
+            },
+            "assets": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "assets": [
+                {
+                  "asset-id": 0,
+                  "amount": 0,
+                  "is-frozen": false,
+                  "deleted": false,
+                  "opted-in-at-round": 0,
+                  "opted-out-at-round": 0
+                }
+              ]
+            },
+            "createdApplications": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "applications": [
+                {
+                  "id": 0,
+                  "params": {
+                    "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                    "approval-program": "ASABASI=",
+                    "clear-state-program": "ASABASI=",
+                    "global-state-schema": {
+                      "num-uint": 0,
+                      "num-byte-slice": 0
+                    },
+                    "local-state-schema": {
+                      "num-uint": 0,
+                      "num-byte-slice": 0
+                    },
+                    "extra-program-pages": 0
+                  },
+                  "created-at-round": 0,
+                  "deleted": false,
+                  "deleted-at-round": 0
+                }
+              ]
+            },
+            "createdAssets": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "assets": [
+                {
+                  "index": 0,
+                  "params": {
+                    "creator": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                    "decimals": 0,
+                    "default-frozen": false,
+                    "name": "string",
+                    "name-b64": "string",
+                    "total": 0,
+                    "unit-name": "string",
+                    "unit-name-b64": "string",
+                    "url": "string",
+                    "url-b64": "string",
+                    "metadata-hash": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+                  },
+                  "created-at-round": 0,
+                  "deleted": false,
+                  "destroyed-at-round": 0
+                }
+              ]
+            },
+            "pendingTransactions": {
+              "id": "123e4567-e89b-12d3-a456-426614174000",
+              "total-transactions": 1,
+              "top-transactions": [
+                {
+                  "sig": "signature",
+                  "txn": {
+                    "amt": 1000,
+                    "fee": 1000,
+                    "fv": 1000,
+                    "gen": "mainnet-v1.0",
+                    "gh": "wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=",
+                    "lv": 2000,
+                    "note": "note",
+                    "rcv": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                    "snd": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAY5HFKQ",
+                    "type": "pay"
+                  }
+                }
+              ]
+            },
+            "transactions": {
+              "current-round": 0,
+              "next-token": "next-token",
+              "transactions": [
+                {
+                  "id": "transaction-id",
+                  "fee": 0,
+                  "first-valid": 0,
+                  "last-valid": 0,
+                  "sender": "sender-address",
+                  "type": "pay",
+                  "payment-transaction": {
+                    "amount": 0,
+                    "receiver": "receiver-address"
+                  },
+                  "confirmed-round": 0,
+                  "round-time": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "searchOrCreates": {}
+}
